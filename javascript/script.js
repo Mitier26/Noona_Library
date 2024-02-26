@@ -1,10 +1,5 @@
 // 문서가 전부 로딩되면 작동하라는 뜻
-document.onload(function () {
-    // 스트립크 작성 부분
-});
-
-// 문서가 전부 로딩되면 작동하라는 뜻
-document.onload(function () {
+window.onload = function () {
     // 스트립크 작성 부분
     const API_KEY = '';
     // 기본 연결 url
@@ -41,6 +36,9 @@ document.onload(function () {
 
             const response = await fetch(url);
             const data = await response.json();
+            console.log(data);
         } catch (error) {}
     };
-});
+
+    getBook();
+};
