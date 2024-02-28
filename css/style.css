@@ -3,3 +3,22 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.row{
+    margin-top: 1em;
+}
+
+.title-img-sh{
+    max-width: 100px;
+    max-height: 100%;
+}
+
+.main-title-sh *{
+    display: inline;
+}
+
+.main-title-sh{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}

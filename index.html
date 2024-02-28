@@ -21,25 +21,67 @@
         />
         <!-- 현재 문서 스타일 -->
         <link rel="stylesheet" href="/css/style.css" />
+        <link rel="icon" href="./asset/favicon.png" type="image/x-icon"/>
     </head>
     <body>
         <div class="container">
             <!-- 상단 메뉴 부분 -->
-            <header>
+            <header class="row">
+                <div class="col-8">
+                    <div class="main-title-sh">
+                        <img class="title-img-sh" src="./asset/누나의 도서검색.png"/>
+                        <h1>누나의 도서관 서적 검색</h1>
+                    </div>
+                </div>
                 <!-- 날씨&미세먼지, 타이틀, 타이틀 배경 -->
+                <div class="col-4">
+                    <div id="">
+                        
+                    </div>
+                </div>
             </header>
-
             <!-- 중간 메뉴 -->
             <main>
+                <!-- 이미지 슬라이드 -->
+                <section class="row">
+                    <div id="carouselExampleIndicators" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <img src="./asset/누나의 도서검색.png" class="d-block w-100" alt="...">
+                          </div>
+                          <div class="carousel-item">
+                            <img src="..." class="d-block w-100" alt="...">
+                          </div>
+                          <div class="carousel-item">
+                            <img src="..." class="d-block w-100" alt="...">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                </section>
                 <section>
                     <!-- 검색창 -->
                 </section>
-                <aside>
-                    <!-- 자료유형 사이드바 -->
-                </aside>
-                <section>
-                    <!-- 메인 도서 리스트& 페이지네이션 -->
-                </section>
+                <div class="row">
+                    <aside class="col-2">
+                        <!-- 자료유형 사이드바 -->
+                    </aside>
+                    <section class="col-10" id="mg-card-holder">
+                        <!-- 메인 도서 리스트& 페이지네이션 -->
+                    </section>
+                </div>
             </main>
 
             <!-- 하단 메뉴 -->
