@@ -36,6 +36,7 @@ async function getBook() {
         // url.searchParams.set('region', 11);
         // url.searchParams.set('addCode', 0);
         // url.searchParams.set('kdc', 6);
+        url.searchParams.set('dtl_kdc', 43);
         url.searchParams.set('pageNo', 1);
         url.searchParams.set('pageSize', 1);
         url.searchParams.set('format', 'json');
@@ -60,10 +61,16 @@ function moreRender() {
                 `<div class="card">
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
-                        <li>제목<span>${book.doc.bookname.split(':')[0]}</span></li>
+                        <li>제목<span>${
+                            book.doc.bookname.split(':')[0].length >= 0
+                                ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
+                                : book.doc.bookname.split(':')[0]
+                        }</span></li>
                         <li>작가<span>${
                             book.doc.authors.includes(':')
                                 ? book.doc.authors.split(':')[1].trim()
+                                : book.doc.authors.includes(';')
+                                ? `${book.doc.authors.split(';')[0].trim()}<br>${book.doc.authors.split(';')[1].trim()}`
                                 : book.doc.authors.trim()
                         }</span></li>
                         <li>분류<span>${book.doc.class_nm.split('>').pop()}</span></li>
