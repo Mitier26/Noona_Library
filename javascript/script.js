@@ -8,9 +8,9 @@ document.onload(function () {
     // 스트립크 작성 부분
     const API_KEY = '';
     // 기본 연결 url
-    let url = new URL(`https://www.nl.go.kr/NL/search/openApi/search.do?`);
+    let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${keyword}&startDt=2024-01-01&endDt=2024-02-27`);
     // 발급키
-    let keyword = `%ED%86%A0%EC%A7%80`;
+    let keyword = `%ED%86%A76920f087955f921eb6b6f79d89fc42703ef032dc51e44b6ee7e4be168f2de590%EC%A7%80`;
     // 검색 대상
     // total(전체), title(제목), author(저자), publisher(발행자),생략지 전체
     let srchTarget = 'total';
