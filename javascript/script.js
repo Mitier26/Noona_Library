@@ -58,7 +58,7 @@ function moreRender() {
     let booksHTML = bookList
         .map(
             (book) =>
-                `<div class="card">
+                `<div class="card" onclick='modalRender'>
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
