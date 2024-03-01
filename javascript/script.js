@@ -10,7 +10,7 @@ const API_KEY = `76920f087955f921eb6b6f79d89fc42703ef032dc51e44b6ee7e4be168f2de5
 let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
 let url1 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
 let bookList = [];
-let popularLoanBooks = [];
+let popularLoanBooksList = [];
 
 
 // // 화면에 표시되는 줄수
@@ -98,13 +98,35 @@ let popularLoanBooks = [];
 
 const getPopularLoanBooks = async () => {
     url.searchParams.set('format', 'json');
+    url.searchParams.set('startDt', '2024-01-01');
+    url.searchParams.set('endDt', '2024-02-29');
+    url.searchParams.set('gender', 1);
+    url.searchParams.set('age', 20);
+
     const response = await fetch(url);
     console.log("response : ", response);
     const data = await response.json();
-    popularLoanBooks = data.response.docs
-    console.log("data : ", popularLoanBooks);
-
-
+    popularLoanBooksList = data.response.docs
+    console.log("popularLoanBooksList : ", popularLoanBooksList);
+    popularLoanBooksRender();
 };
 
 getPopularLoanBooks();
+
+const popularLoanBooksRender = () => {
+    const popularLoanBooksHTML = popularLoanBooksList.map(
+        (book)=>
+            `<div class="card" style="width: 14.5rem;">
+        <div class = "yb-books-ranking">${book.doc.ranking}</div>
+        <img src=${book.doc.bookImageURL} class="card-img-top" alt="..."> <!-- 책표지 URL-->
+        <div class="card-body">
+          <div class="card-title">${book.doc.bookname}</div>
+          <div class="card-text">${book.doc.authors}</div>
+          <div class="card-text">출판사 : ${book.doc.publisher}</div>
+          <div class="card-text">출판년도 : ${book.doc.publication_year}</div>
+        </div>
+    </div>`
+    ).join("");
+    console.log("popularLoanBooksHTML", popularLoanBooksHTML);
+    document.getElementById('yb-popular-loan-books').innerHTML=popularLoanBooksHTML
+}
