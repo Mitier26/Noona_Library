@@ -43,40 +43,40 @@ async function searchBook(keyword) {
     try {
 
         keyword = '환경';
-        url.searchParams.set('authKey', API_KEY[0]);
-        url.searchParams.set('pageNo', 1);
-        url.searchParams.set('pageSize', 1);
-        url.searchParams.set('format', 'json');
+        url1.searchParams.set('authKey', API_KEY1[0]);
+        url1.searchParams.set('pageNo', 1);
+        url1.searchParams.set('pageSize', 1);
+        url1.searchParams.set('format', 'json');
 
         // title 검색
-        url.searchParams.set('title', keyword);
-        response = await fetch(url);
+        url1.searchParams.set('title', keyword);
+        response = await fetch(url1);
         if (!response.ok) {
             throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
         }
         data = await response.json();
         titleSearchList = data.response.docs;
-        url.searchParams.delete('title');
+        url1.searchParams.delete('title');
 
         // author 검색
-        url.searchParams.set('author', keyword);
-        response = await fetch(url);
+        url1.searchParams.set('author', keyword);
+        response = await fetch(url1);
         if (!response.ok) {
             throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
         }
         data = await response.json();
         authorSearchList = data.response.docs;
-        url.searchParams.delete('author');
+        url1.searchParams.delete('author');
 
         // keyword 검색
-        url.searchParams.set('keyword', keyword);
-        response = await fetch(url);
+        url1.searchParams.set('keyword', keyword);
+        response = await fetch(url1);
         if (!response.ok) {
             throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
         }
         data = await response.json();
         keywordSearchList = data.response.docs;
-        url.searchParams.delete('keyword');
+        url1.searchParams.delete('keyword');
 
         
 
@@ -186,11 +186,13 @@ function searchRender() {
                 </div>`
         )
         .join('');
+
+    document.getElementById('title-holder').innerHTML = searchTitleBooksHTML;
+    document.getElementById('author-holder').innerHTML = searchAuthorBooksHTML;
+    document.getElementById('keyword-holder').innerHTML = searchKeywordBooksHTML;
 }
 
-document.getElementById('title-holder').innerHTML = searchTitleBooksHTML;
-document.getElementById('author-holder').innerHTML = searchAuthorBooksHTML;
-document.getElementById('keyword-holder').innerHTML = searchKeywordBooksHTML;
+
 
 const getPopularLoanBooks = async () => {
     url.searchParams.set('format', 'json');
@@ -218,7 +220,8 @@ const getPopularLoanBooksByRegion = async(e) => {
     url.searchParams.set('region', region);
     getPopularLoanBooksData();
 };
-searchBook();
+
+
 
 const getPopularLoanBooksByAge = async(e) => {
     const age = e.target.value;
