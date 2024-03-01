@@ -1,6 +1,3 @@
-// 문서가 전부 로딩되면 작동하라는 뜻
-// window.onload = function () {
-// 스크립트 작성 하는 곳
 /*
         작성자 : 우명균
     */
@@ -8,9 +5,10 @@
 // ttbmitier1409002
 const API_KEY = [`09f34dfde082ce1b964aeba567e3ecaab58fff794ea4607015ef0709449211a1`];
 
-let url1 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
-let url = new URL('http://data4library.kr/api/loanItemSrch?');
-let bookList = [];
+let url = new URL('http://data4library.kr/api/srchBooks?');
+let titleSearchList = [];
+let authorSearchList = [];
+let keywordSearchList = [];
 
 // 화면에 표시되는 줄수
 const lineCount = 3;
@@ -19,46 +17,65 @@ const lineCount = 3;
 let pageNum = 1;
 let pageSize = itemCountCalculator();
 
-// 검색용
-let systemType = '';
-// category는 메인페이지에서 값을 받아서 사용하고 사이드 버튼에서도 사용
-let category = '';
+let response;
+let date;
 
-async function getBook() {
+async function searchBook(keyword) {
     try {
         url.searchParams.set('authKey', API_KEY[0]);
-        url.searchParams.set('startDt', '2022-01-01');
-        url.searchParams.set('endDt', '2022-03-31');
-
-        // url.searchParams.set('gender', 1);
-        // url.searchParams.set('age', 20);
-
-        // url.searchParams.set('region', 11);
-        // url.searchParams.set('addCode', 0);
-        // url.searchParams.set('kdc', 6);
-        url.searchParams.set('dtl_kdc', 43);
         url.searchParams.set('pageNo', 1);
         url.searchParams.set('pageSize', 1);
         url.searchParams.set('format', 'json');
 
-        console.log(url);
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
-        bookList = data.response.docs;
-        console.table(bookList);
+        // title 검색
+        url.searchParams.set('title', keyword);
+        response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
+        }
+        data = await response.json();
+        titleSearchList = data.response.docs;
+        url.searchParams.delete('title');
 
-        moreRender();
+        // author 검색
+        url.searchParams.set('author', keyword);
+        response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
+        }
+        data = await response.json();
+        authorSearchList = data.response.docs;
+        url.searchParams.delete('author');
+
+        // keyword 검색
+        url.searchParams.set('keyword', keyword);
+        response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
+        }
+        data = await response.json();
+        keywordSearchList = data.response.docs;
+        url.searchParams.delete('keyword');
+
+        
+
+        // if (titleSearchList.length === 0 && authorSearchList.length === 0 && keywordSearchList.length === 0) {
+        //     throw new Error('검색어에 해당하는 책이 없습니다.');
+        // }
+
+        searchRender();
+
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
-function moreRender() {
-    let booksHTML = bookList
+function searchRender() {
+    let searchTitleBooksHTML = titleSearchList
         .map(
             (book) =>
-                `<div class="card" onclick='modalRender(${book.doc.isbn13})'>
+
+                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -66,25 +83,94 @@ function moreRender() {
                                 ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
                                 : book.doc.bookname.split(':')[0]
                         }</span></li>
-                        <li>작가<span>${
-                            book.doc.authors.includes(':')
-                                ? book.doc.authors.split(':')[1].trim()
-                                : book.doc.authors.includes(';')
-                                ? `${book.doc.authors.split(';')[0].trim()}<br>${book.doc.authors.split(';')[1].trim()}`
-                                : book.doc.authors.trim()
-                        }</span></li>
-                        <li>분류<span>${book.doc.class_nm.split('>').pop()}</span></li>
-                        <li>발행자<span>${book.doc.publisher}</span></li>
-                        <li>발행일<span>${book.doc.publication_year}</span></li>
+                        <li>작가<span>
+                        ${
+                            book.doc.authors.includes(';')
+                                ? (book.doc.authors.split(';')[0].includes(':')
+                                    ? book.doc.authors.split(';')[0].split(':')[1]
+                                    : book.doc.authors.split(';')[0]) +
+                                    '<br>' +
+                                    (book.doc.authors.split(';')[1])
+                                : book.doc.authors.includes(':')
+                                ? book.doc.authors.split(':')[1]
+                                : book.doc.authors
+                        }
+                        
+                        </span></li>
                     </ul>
                 </div>`
         )
         .join('');
 
-    document.getElementById('mg-card-holder').innerHTML = booksHTML;
-}
+        let searchAuthorBooksHTML = authorSearchList
+        .map(
+            (book) =>
 
-getBook();
+                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
+                    <img src="${book.doc.bookImageURL}" alt="" />
+                    <ul>
+                        <li>제목<span>${
+                            book.doc.bookname.split(':')[0].length >= 0
+                                ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
+                                : book.doc.bookname.split(':')[0]
+                        }</span></li>
+                        <li>작가<span>
+                        ${
+                            book.doc.authors.includes(';')
+                                ? (book.doc.authors.split(';')[0].includes(':')
+                                    ? book.doc.authors.split(';')[0].split(':')[1]
+                                    : book.doc.authors.split(';')[0]) +
+                                    '<br>' +
+                                    (book.doc.authors.split(';')[1])
+                                : book.doc.authors.includes(':')
+                                ? book.doc.authors.split(':')[1]
+                                : book.doc.authors
+                        }
+                        
+                        </span></li>
+                    </ul>
+                </div>`
+        )
+        .join('');
+
+        let searchKeywordBooksHTML = keywordSearchList
+        .map(
+            (book) =>
+
+                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
+                    <img src="${book.doc.bookImageURL}" alt="" />
+                    <ul>
+                        <li>제목<span>${
+                            book.doc.bookname.split(':')[0].length >= 0
+                                ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
+                                : book.doc.bookname.split(':')[0]
+                        }</span></li>
+                        <li>작가<span>
+                        ${
+                            book.doc.authors.includes(';')
+                                ? (book.doc.authors.split(';')[0].includes(':')
+                                    ? book.doc.authors.split(';')[0].split(':')[1]
+                                    : book.doc.authors.split(';')[0]) +
+                                    '<br>' +
+                                    (book.doc.authors.split(';')[1])
+                                : book.doc.authors.includes(':')
+                                ? book.doc.authors.split(':')[1]
+                                : book.doc.authors
+                        }
+                        
+                        </span></li>
+                    </ul>
+                </div>`
+        )
+        .join('');
+
+    document.getElementById('title-holder').innerHTML = searchTitleBooksHTML;
+    document.getElementById('author-holder').innerHTML = searchAuthorBooksHTML;
+    document.getElementById('keyword-holder').innerHTML = searchKeywordBooksHTML;
+}
+{/* <li>분류<span>${book.doc.class_nm.split('>').pop()}</span></li>
+<li>발행자<span>${book.doc.publisher}</span></li>
+<li>발행일<span>${book.doc.publication_year}</span></li> */}
 
 function itemCountCalculator() {
     if (window.innerWidth < 451) return 10;
@@ -96,4 +182,34 @@ function itemCountCalculator() {
 }
 
 window.addEventListener('resize', itemCountCalculator);
-// };
+
+
+// 검색창 부분
+const searchBtn = document.getElementById('search-btn');
+const searchInput = document.getElementById('search-input');
+const searchType = document.querySelectorAll('.search-type');
+
+// 검색 타입 버튼
+searchType.forEach(btn => {
+    btn.addEventListener('click', function(){
+        console.log(btn.id);
+    });
+});
+
+// 검색 하기 버튼
+searchBtn.addEventListener('click', function () {
+    const inputValue = searchInput.value.trim();
+
+    if (!inputValue) {
+        const returnVal = prompt("검색어를 입력해 주세요");
+
+        if (returnVal) {
+            searchInput.value = returnVal;
+            console.log(returnVal);
+            searchBook(returnVal);
+        }
+    } else {
+        console.log(inputValue);
+        searchBook(inputValue);
+    }
+});
