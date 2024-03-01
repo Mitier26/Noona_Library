@@ -20,9 +20,10 @@ const regionMenu = document.querySelectorAll(".region-menu");
 const ageMenu = document.querySelectorAll(".age-menu");
 const genderMenu = document.querySelectorAll(".gender-menu");
 
-console.log("regionMenu : ", regionMenu);
-console.log("ageMenu : ", ageMenu);
-console.log("genderMenu : ", genderMenu);
+let resultNum = 0;
+let page = 1;
+const pageSize = 20;
+const groupSize = 5;
 
 regionMenu.forEach(region => 
     region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
@@ -180,11 +181,15 @@ const getPopularLoanBooks = async () => {
 };
 
 const getPopularLoanBooksData = async() => {
-    let response = await fetch(url);
+    url.searchParams.set("pageNo", page);
+    url.searchParams.set("pageSize", pageSize);
+    const response = await fetch(url);
     const data = await response.json();
     console.log("data:",data);
     popularLoanBooksList = data.response.docs;
+    resultNum = data.response.resultNum;
     popularLoanBooksRender();
+    paginationRender();
 }
 
 const getPopularLoanBooksByRegion = async(e) => {
@@ -226,6 +231,67 @@ const popularLoanBooksRender = () => {
     ).join("");
     document.getElementById('yb-popular-loan-books').innerHTML=popularLoanBooksHTML
 }
+
+const paginationRender=()=>{
+    //resultNum
+    //page
+    //pageSize
+    //groupSize
+    //totalPages
+    const totalPages = Math.ceil(resultNum/pageSize);
+    //pageGroup
+    const pageGroup = Math.ceil(page/groupSize);
+    //lastPage
+    let lastPage = pageGroup * groupSize;
+    if(lastPage<totalPages){
+        lastPage=totalPages
+    }
+
+    //firstPage
+    const firstPage = lastPage - (groupSize - 1)<=0 ? 1 : lastPage - (groupSize - 1);
+    
+    let paginationHTML = ``
+
+
+    if(firstPage >= 6){
+        paginationHTML = `<a class="page-link" onclick = "moveToPage(1)" aria-label="First-Page">
+        <span aria-hidden="true">&laquo;</span>
+      </a><a class="page-link" onclick = "moveToPage(${page-1})" aria-label="Previous">
+        <span aria-hidden="true">&lt;</span></a>`;
+    }
+
+  for(let i=firstPage;i<=lastPage;i++){
+    paginationHTML+=`<li class="page-item" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`
+  }
+  if(lastPage<totalPages){
+    paginationHTML+=`<a class="page-link" onclick = "moveToPage(${page+1})" aria-label="Next">
+<span aria-hidden="true">&gt;</span>
+</a><a class="page-link" onclick = "moveToPage(${totalPages})"aria-label="Last-Page">
+<span aria-hidden="true">&raquo;</span>
+</a>`
+}
+    document.querySelector(".pagination").innerHTML=paginationHTML;
+}
+
+const moveToPage = (pageNum) => {
+    console.log("movetopage", pageNum);
+    page = pageNum;
+    getPopularLoanBooksData();
+}
+
+//  <li class="page-item">
+//     <a class="page-link" href="#" aria-label="Previous">
+//       <span aria-hidden="true">&laquo;</span>
+//     </a>
+//   </li>
+  
+//   <li class="page-item"><a class="page-link" href="#">2</a></li>
+//   <li class="page-item"><a class="page-link" href="#">3</a></li>
+//   <li class="page-item">
+//     <a class="page-link" href="#" aria-label="Next">
+//       <span aria-hidden="true">&raquo;</span>
+//     </a>
+//   </li> 
 
 // 1. 버튼들에 클릭이벤트
 // 2. 지역 별 책들 가져오기
