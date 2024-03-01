@@ -1,15 +1,39 @@
-<!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>누나 도서관</title>
-        <link rel="stylesheet" href="/css/style.css" />
-    </head>
-    <body>
-        <h1>누나 도서관</h1>
-        <h2> sj branch </h2>
+<html>
+<head>
+<title>Weather</title>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-1.7.min.js" ></script>
+</head>
+<script>
+    $.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',function(data){
+        //data로 할일 작성
+        //alert(data.list[0].main.temp_min)
+        let $minTemp=data.main.temp_min;
+        let $maxTemp= data.main.temp_max;
+        let $cTemp=data.main.temp;
+        let $cDate=data.dt;
+        let $wIcon=data.weather[0].icon;
         
-        <script src="/javascript/script.js"></script>
-    </body>
+
+        let $now= new Date($.now())
+        
+        //alert(new Date($.now()))
+        //A.append(B) A요소의 내용 뒤에 B를 추가
+        //A.prepend(B) A요소의 내용 앞에 B를 추가
+        $('.clowtemp').append($minTemp);
+        $('.ctemp').append($cTemp);
+        $('.chightemp').append($maxTemp);
+        $('h2').prepend($now.getFullYear()+'/'+($now.getMonth()+1)+'/'+$now.getDate()+'/'+$now.getHours()+":"+$now.getMinutes())
+        $('.cicon').append('<img src="https://openweathermap.org/img/wn/'+$wIcon+'@2x.png">')
+    })
+</script>
+<body>
+<h1>weather api</h1>
+<h2>- 날씨 예보</h2>
+<div class="ctemp">현재 온도: </div>
+<div class="clowtemp">최저 온도: </div>
+<div class="chightemp">최고 온도: </div>
+<div class="cicon">아이콘 : </div>
+<!-- HTML -->
+</body>
 </html>
