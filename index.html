@@ -55,10 +55,10 @@
                                 <img src="./asset/누나의 도서검색.png" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="..." class="d-block w-100" alt="...">
+                                <img src="/images/noimage.png" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="..." class="d-block w-100" alt="...">
+                                <img src="/asset/favicon.png" class="d-block w-100" alt="...">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -171,7 +171,7 @@
                         <button>더 보기 -></button>
                     </div>
                     <div class="mg-holder" id="keyword-holder">
-                        <div class="card">
+                        <div class="card" onclick="getBookhj('9791161571379')">
                             <img src="/images/noimage.png" alt="" />
                             <ul>
                                 <li>제목<span>${aaaaaa}</span></li>
@@ -181,6 +181,40 @@
                     </div>
                     
                 </section>
+
+                
+                    
+                <!-- Button trigger modal @@테스트버튼@@-->
+                
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button> -->
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div id="modal-content">
+                            <!-- <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fshopping-phinf.pstatic.net%2Fmain_4594514%2F45945148623.20240222090841.jpg&type=w216">
+                            </div>
+                            <div class="modal-footer">
+                                <div class="modal-item">    
+                                        <li class="list-group-item">- 랭킹 :${bookList.ranking}</li>
+                                        <li class="list-group-item">- 저자명 :${bookList.authors}</li>
+                                        <li class="list-group-item">- 주제분류 :${bookList.class_nm}</li>
+                                        <li class="list-group-item">- 출판사 :${bookList.publisher}</li>
+                                        <li class="list-group-item">- 책소개 :${bookList.description}</li>
+                                        <li class="list-group-item">- 발행년도 :${bookList.publication_year}</li>
+                                        <li class="list-group-item">- ISBN :${bookList.isbn13}</li>
+                            </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
             </main>
 
             <!-- 하단 메뉴 -->
@@ -198,4 +232,6 @@
         <!-- 현재 문서 스트립트 -->
         <script src="/javascript/script.js"></script>
     </body>
+
+    
 </html>

@@ -1,10 +1,7 @@
-/*
-        작성자 : 우명균
-    */
-// API 키를 배열로 만들어 키가 막혔을 때 다른 키를 사용한다.
-// ttbmitier1409002
+
 const API_KEY = `76920f087955f921eb6b6f79d89fc42703ef032dc51e44b6ee7e4be168f2de59`;
 const API_KEY1 = [`09f34dfde082ce1b964aeba567e3ecaab58fff794ea4607015ef0709449211a1`];
+const API_KEY2 = `0d60452df08b29527128ee96f993660c1f3722369b9e8f087b6b69f215762f38`;
 
 let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
 let url1 = new URL('http://data4library.kr/api/srchBooks?');
@@ -21,13 +18,15 @@ let titleSearchList = [];
 let authorSearchList = [];
 let keywordSearchList = [];
 
+const lineCount = 3;
+
 const regionMenu = document.querySelectorAll(".region-menu");
 const ageMenu = document.querySelectorAll(".age-menu");
 const genderMenu = document.querySelectorAll(".gender-menu");
 
 let resultNum = 0;
 let page = 1;
-const pageSize = 20;
+const pageSize = 1;
 const groupSize = 5;
 
 regionMenu.forEach(region => 
@@ -96,7 +95,7 @@ function searchRender() {
         .map(
             (book) =>
 
-                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
+                `<div class="card" onclick='getBookhj('${book.doc.isbn13}')'>
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -127,7 +126,7 @@ function searchRender() {
         .map(
             (book) =>
 
-                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
+                `<div class="card" onclick='getBookhj('${book.doc.isbn13}')'>
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -160,7 +159,7 @@ function searchRender() {
         .map(
             (book) =>
 
-                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
+                `<div class="card" onclick='getBookhj('${book.doc.isbn13}')'>
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -283,12 +282,12 @@ searchBtn.addEventListener('click', function () {
     }
 });
 
-getPopularLoanBooks();
+// getPopularLoanBooks();
 
 const popularLoanBooksRender = () => {
     const popularLoanBooksHTML = popularLoanBooksList.map(
         (book)=>
-            `<div class="card" style="width: 14.5rem;">
+            `<div class="card" style="width: 14.5rem;" onclick='getBookhj('${book.doc.isbn13}')'>
         <div class = "yb-books-ranking">${book.doc.ranking}</div>
         <img src=${book.doc.bookImageURL} class="card-img-top" alt="..."> <!-- 책표지 URL-->
         <div class="card-body">
@@ -347,4 +346,50 @@ const moveToPage = (pageNum) => {
     console.log("movetopage", pageNum);
     page = pageNum;
     getPopularLoanBooksData();
+}
+
+
+// 모달
+const getBookhj = async(isbn13) =>{
+    const url2 = new URL(`http://data4library.kr/api/srchBooks?authKey=${API_KEY2}`);
+    url2.searchParams.set("isbn13" , isbn13 )
+    url2.searchParams.set('format', 'json');
+    const response = await fetch(url2);
+    const data = await response.json();
+    bookList = data.response.docs;
+
+    console.log(data.response.docs,"data")
+    modalRender()
+}
+
+
+function modalRender() {
+    let booksHTML = bookList
+        .map(
+            (book) =>
+        `<div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">${book.doc.bookname}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+                <img src="${book.doc.bookImageURL}"/>
+        </div>
+            
+        <div class="modal-footer">
+            <ur class="modal-items">
+                <li class="list-group-item">- 랭킹 :${book.doc.ranking}</li>
+                <li class="list-group-item">- 저자명 :${book.doc.authors}</li>
+                <li class="list-group-item">- 주제분류 :${book.doc.class_nm}</li>
+                <li class="list-group-item">- 출판사 :${book.doc.publisher}</li>
+                <li class="list-group-item">- 책소개 :${book.doc.description}</li>
+                <li class="list-group-item">- 발행년도 :${book.doc.publication_year}</li>
+                <li class="list-group-item">- ISBN :${book.doc.isbn13}</li>
+            </ur>
+        </div>
+        `
+        )
+        .join('');
+
+    document.getElementById('modal-content').innerHTML = booksHTML;
 }
