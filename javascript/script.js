@@ -1,6 +1,3 @@
-// 문서가 전부 로딩되면 작동하라는 뜻
-// window.onload = function () {
-// 스크립트 작성 하는 곳
 /*
         작성자 : 우명균
     */
@@ -8,8 +5,7 @@
 // ttbmitier1409002
 const API_KEY = [`09f34dfde082ce1b964aeba567e3ecaab58fff794ea4607015ef0709449211a1`];
 
-let url1 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
-let url = new URL('http://data4library.kr/api/loanItemSrch?');
+let url = new URL('http://data4library.kr/api/srchBooks?');
 let bookList = [];
 
 // 화면에 표시되는 줄수
@@ -19,23 +15,15 @@ const lineCount = 3;
 let pageNum = 1;
 let pageSize = itemCountCalculator();
 
-// 검색용
-let systemType = '';
-// category는 메인페이지에서 값을 받아서 사용하고 사이드 버튼에서도 사용
-let category = '';
+let keyword = '';
 
-async function getBook() {
+async function searchBook() {
     try {
+
+        keyword = '환경';
         url.searchParams.set('authKey', API_KEY[0]);
-        url.searchParams.set('startDt', '2022-01-01');
-        url.searchParams.set('endDt', '2022-03-31');
 
-        // url.searchParams.set('gender', 1);
-        // url.searchParams.set('age', 20);
-
-        // url.searchParams.set('region', 11);
-        // url.searchParams.set('addCode', 0);
-        // url.searchParams.set('kdc', 6);
+        url.searchParams.set('keyword', keyword);
         url.searchParams.set('dtl_kdc', 43);
         url.searchParams.set('pageNo', 1);
         url.searchParams.set('pageSize', 1);
@@ -43,18 +31,24 @@ async function getBook() {
 
         console.log(url);
         const response = await fetch(url);
+        console.log(response);
         const data = await response.json();
         console.log(data);
         bookList = data.response.docs;
         console.table(bookList);
 
-        moreRender();
+        if(response.status == 200)
+        {
+            searchRender();
+        }
+
+
     } catch (error) {
         console.log(error);
     }
 }
 
-function moreRender() {
+function searchRender() {
     let booksHTML = bookList
         .map(
             (book) =>
@@ -84,16 +78,20 @@ function moreRender() {
     document.getElementById('mg-card-holder').innerHTML = booksHTML;
 }
 
-getBook();
+searchBook();
 
+// 한 페이지에 표시할 책의 수
 function itemCountCalculator() {
-    if (window.innerWidth < 451) return 10;
-    else if (window.innerWidth < 768) return 10;
-    else if (window.innerWidth < 992) return 3 * lineCount;
-    else if (window.innerWidth < 1200) return 4 * lineCount;
-    else if (window.innerWidth < 1400) return 5 * lineCount;
-    else if (window.innerWidth >= 1400) return 6 * lineCount;
+    let result = 0;
+    if (window.innerWidth < 451) result = 10;
+    else if (window.innerWidth < 768) result = 10;
+    else if (window.innerWidth < 992) result = 3 * lineCount;
+    else if (window.innerWidth < 1200) result = 4 * lineCount;
+    else if (window.innerWidth < 1400) result = 5 * lineCount;
+    else if (window.innerWidth >= 1400) result = 6 * lineCount;
+
+    console.log(result);
+    return result;
 }
 
 window.addEventListener('resize', itemCountCalculator);
-// };
