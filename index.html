@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -77,19 +77,58 @@
                 <aside>
                     <!-- 자료유형 사이드바 -->
                 </aside>
-                <section id="mg-card-holder">
-                    <!-- 메인 도서 리스트& 페이지네이션 -->
-                    <!-- <div class="card">
-                        <img src="/images/noimage.png" alt="" />
-                        <ul>
-                            <li>제목<span>${ㅁㅁㅁㅁ}</span></li>
-                            <li>작가<span>${ㅁㅁㅁㅁㅁ}</span></li>
-                            <li>분류<span>ㅇㅇㅇㅇㅇㅇㅇ</span></li>
-                            <li>발행자<span>ㅋㅋㅋㅋㅋㅋㅋㅋ</span></li>
-                            <li>발행일<span>ㄷㄷㄷㄷㄷㄷㄷㄷㄷㄷㄷ</span></li>
-                        </ul>
-                    </div> -->
-                </section>
+
+                <div class="container">
+                    <section id="yb-popular-loan-books-menu">
+                        <button id = "region" class="btn btn-primary" type="submit">지역</button>
+                        <button id = "age" class="btn btn-primary" type="submit">연령</button>
+                        <button id = "gender" class="btn btn-primary" type="submit">성별</button>
+                    </section>
+                    <section id="filter">
+                        <select  class="form-select region-menu" aria-label="Default select example">
+                            <option selected>전국</option>
+                            <option value="11">서울</option>
+                            <option value="21">부산</option>
+                            <option value="22">대구</option>
+                            <option value="23">인천</option>
+                            <option value="24">광주</option>
+                            <option value="25">대전</option>
+                            <option value="26">울산</option>
+                            <option value="29">세종</option>
+                            <option value="31">경기</option>
+                            <option value="32">강원</option>
+                            <option value="33">충북</option>
+                            <option value="34">충남</option>
+                            <option value="35">전북</option>
+                            <option value="36">전남</option>
+                            <option value="37">경북</option>
+                            <option value="38">경남</option>
+                            <option value="39">제주</option>
+                        </select>
+                    </section>
+                    <section id="yb-popular-loan-books">
+                        <div class="card" style="width: 14.5rem;">
+                            <h2 class = "yb-books-ranking">순위</h2>
+                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340770.jpg" class="card-img-top" alt="..."> <!-- 책표지 URL-->
+                            <div class="card-body">
+                                <h3 class="card-title">도서명</h3>
+                                <br>
+                                <p class="card-text">저자명 : </p>
+                                <p class="card-text">출판사 : </p>
+                                <p class="card-text">출판년도 : </p>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                
+                            </ul>
+                        </nav>
+                    </section>
+                
+                </div>
+
             </main>
 
             <!-- 하단 메뉴 -->
