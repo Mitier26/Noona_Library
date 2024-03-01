@@ -129,6 +129,58 @@
                 
                 </div>
 
+                <div class="input-area">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check search-type" name="btnradio" id="book" checked>
+                        <label class="btn btn-outline-warning" for="book">Radio 1</label>
+                        
+                        <input type="radio" class="btn-check search-type" name="btnradio" id="lib" >
+                        <label class="btn btn-outline-warning" for="lib">Radio 2</label>
+                        
+                        <input type="radio" class="btn-check search-type" name="btnradio" id="etc">
+                        <label class="btn btn-outline-warning" for="etc">Radio 3</label>
+
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
+                            <input type="text" class="form-control" id="search-input">
+                            <button class="btn btn-outline-secondary" type="button" id="search-btn">검색</button>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <section id="mg-card-holder">
+                    <div class="search-info">
+                        <h4>제목 검색 결과</h4>
+                        <button>더 보기 -></button>
+                    </div>
+                    <div class="mg-holder" id="title-holder">
+                        
+                    </div>
+
+                    <div class="search-info">
+                        <h4>작가 검색 결과</h4>
+                        <button>더 보기 -></button>
+                    </div>
+                    <div class="mg-holder" id="author-holder">
+                        
+                    </div>
+
+                    <div class="search-info">
+                        <h4>키워드 검색 결과</h4>
+                        <button>더 보기 -></button>
+                    </div>
+                    <div class="mg-holder" id="keyword-holder">
+                        <div class="card">
+                            <img src="/images/noimage.png" alt="" />
+                            <ul>
+                                <li>제목<span>${aaaaaa}</span></li>
+                                <li>작가<span>${ddddddddd}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </section>
             </main>
 
             <!-- 하단 메뉴 -->

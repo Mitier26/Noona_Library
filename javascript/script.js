@@ -8,12 +8,18 @@ const API_KEY1 = [`09f34dfde082ce1b964aeba567e3ecaab58fff794ea4607015ef070944921
 
 let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
 let url1 = new URL('http://data4library.kr/api/srchBooks?');
+
 let bookList = [];
 let popularLoanBooksList = [];
+
 // 지역, 성별, 나이 탭을 가져옴
 const tabs = document.querySelectorAll("#yb-popular-loan-books-menu button")
 console.log("tabs",tabs);
 tabs.forEach(mode=>mode.addEventListener("click", (e)=>popularLoanBooksFilter(e)));
+
+let titleSearchList = [];
+let authorSearchList = [];
+let keywordSearchList = [];
 
 const regionMenu = document.querySelectorAll(".region-menu");
 const ageMenu = document.querySelectorAll(".age-menu");
@@ -30,99 +36,67 @@ ageMenu.forEach(age =>
     age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
 genderMenu.forEach(gender => 
     gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
+let response;
+let date;
 
-async function searchBook() {
+async function searchBook(keyword) {
     try {
 
         keyword = '환경';
         url.searchParams.set('authKey', API_KEY[0]);
-
-        url.searchParams.set('keyword', keyword);
-        url.searchParams.set('dtl_kdc', 43);
         url.searchParams.set('pageNo', 1);
         url.searchParams.set('pageSize', 1);
         url.searchParams.set('format', 'json');
 
-        console.log(url);
-        const response = await fetch(url);
-        console.log(response);
-        const data = await response.json();
-        console.log(data);
-        bookList = data.response.docs;
-        console.table(bookList);
-
-        if(response.status == 200)
-        {
-            searchRender();
+        // title 검색
+        url.searchParams.set('title', keyword);
+        response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
         }
+        data = await response.json();
+        titleSearchList = data.response.docs;
+        url.searchParams.delete('title');
 
+        // author 검색
+        url.searchParams.set('author', keyword);
+        response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
+        }
+        data = await response.json();
+        authorSearchList = data.response.docs;
+        url.searchParams.delete('author');
+
+        // keyword 검색
+        url.searchParams.set('keyword', keyword);
+        response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`책 검색 중 오류 발생: ${response.statusText}`);
+        }
+        data = await response.json();
+        keywordSearchList = data.response.docs;
+        url.searchParams.delete('keyword');
+
+        
+
+        // if (titleSearchList.length === 0 && authorSearchList.length === 0 && keywordSearchList.length === 0) {
+        //     throw new Error('검색어에 해당하는 책이 없습니다.');
+        // }
+
+        searchRender();
 
     } catch (error) {
-        console.log(error);
-    }
-}
-
-// 인기도서대출 리스트 뽑기
-const popularLoanBooksFilter = (e) => {
-    let mode = e.target.id
-    console.log("mode", mode);
-    let filterHTML = ``
-    if(mode === "region"){
-        filterHTML = `
-        <select class="form-select region-menu" aria-label="Default select example">
-            <option selected>전국</option>
-            <option value="11">서울</option>
-            <option value="21">부산</option>
-            <option value="22">대구</option>
-            <option value="23">인천</option>
-            <option value="24">광주</option>
-            <option value="25">대전</option>
-            <option value="26">울산</option>
-            <option value="29">세종</option>
-            <option value="31">경기</option>
-            <option value="32">강원</option>
-            <option value="33">충북</option>
-            <option value="34">충남</option>
-            <option value="35">전북</option>
-            <option value="36">전남</option>
-            <option value="37">경북</option>
-            <option value="38">경남</option>
-            <option value="39">제주</option>
-        </select>`
-        document.getElementById('filter').innerHTML=filterHTML
-    }else if(mode === "age"){
-        filterHTML = `
-        <select class="form-select age-menu" aria-label="Default select example">
-            <option selected>전체</option>
-            <option value="0">영유아(0~5세)</option>
-            <option value="6">유아(6~7세)</option>
-            <option value="8">초등(8~13세)</option>
-            <option value="14">청소년(14~19세)</option>
-            <option value="20">20대</option>
-            <option value="30">30대</option>
-            <option value="40">40대</option>
-            <option value="50">50대</option>
-            <option value="60">60세 이상</option>
-            <option value="-1">미상</option>
-        </select>`
-        document.getElementById('filter').innerHTML=filterHTML;
-    }else if(mode === "gender"){
-        filterHTML = `
-        <select class="form-select gender-menu" aria-label="Default select example">
-            <option selected>전체</option>
-            <option value="0">남성</option>
-            <option value="1">여성</option>
-            <option value="2">미상</option>
-        </select>`
-        document.getElementById('filter').innerHTML=filterHTML;
+        console.error(error);
     }
 }
 
 function searchRender() {
-    let booksHTML = bookList
+    let searchTitleBooksHTML = titleSearchList
         .map(
             (book) =>
-                `<div class="card" onclick='modalRender(${book.doc.isbn13})'>
+
+                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -130,22 +104,93 @@ function searchRender() {
                                 ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
                                 : book.doc.bookname.split(':')[0]
                         }</span></li>
-                        <li>작가<span>${
-                            book.doc.authors.includes(':')
-                                ? book.doc.authors.split(':')[1].trim()
-                                : book.doc.authors.includes(';')
-                                ? `${book.doc.authors.split(';')[0].trim()}<br>${book.doc.authors.split(';')[1].trim()}`
-                                : book.doc.authors.trim()
+                        <li>작가<span>
+                        ${
+                            book.doc.authors.includes(';')
+                                ? (book.doc.authors.split(';')[0].includes(':')
+                                    ? book.doc.authors.split(';')[0].split(':')[1]
+                                    : book.doc.authors.split(';')[0]) +
+                                    '<br>' +
+                                    (book.doc.authors.split(';')[1])
+                                : book.doc.authors.includes(':')
+                                ? book.doc.authors.split(':')[1]
+                                : book.doc.authors
+                        }
+                        
+                        </span></li>
+                    </ul>
+                </div>`
+        )
+        .join('');
+
+        let searchAuthorBooksHTML = authorSearchList
+        .map(
+            (book) =>
+
+                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
+                    <img src="${book.doc.bookImageURL}" alt="" />
+                    <ul>
+                        <li>제목<span>${
+                            book.doc.bookname.split(':')[0].length >= 0
+                                ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
+                                : book.doc.bookname.split(':')[0]
                         }</span></li>
-                        <li>분류<span>${book.doc.class_nm.split('>').pop()}</span></li>
-                        <li>발행자<span>${book.doc.publisher}</span></li>
-                        <li>발행일<span>${book.doc.publication_year}</span></li>
+                        <li>작가<span>
+                        ${
+                            book.doc.authors.includes(';')
+                                ? (book.doc.authors.split(';')[0].includes(':')
+                                    ? book.doc.authors.split(';')[0].split(':')[1]
+                                    : book.doc.authors.split(';')[0]) +
+                                    '<br>' +
+                                    (book.doc.authors.split(';')[1])
+                                : book.doc.authors.includes(':')
+                                ? book.doc.authors.split(':')[1]
+                                : book.doc.authors
+                        }
+                        
+                        </span></li>
                     </ul>
                 </div>`
         )
         .join('');
                     
+
+
+        let searchKeywordBooksHTML = keywordSearchList
+        .map(
+            (book) =>
+
+                `<div class="card" onclick='modalRender('${book.doc.isbn13}')'>
+                    <img src="${book.doc.bookImageURL}" alt="" />
+                    <ul>
+                        <li>제목<span>${
+                            book.doc.bookname.split(':')[0].length >= 0
+                                ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
+                                : book.doc.bookname.split(':')[0]
+                        }</span></li>
+                        <li>작가<span>
+                        ${
+                            book.doc.authors.includes(';')
+                                ? (book.doc.authors.split(';')[0].includes(':')
+                                    ? book.doc.authors.split(';')[0].split(':')[1]
+                                    : book.doc.authors.split(';')[0]) +
+                                    '<br>' +
+                                    (book.doc.authors.split(';')[1])
+                                : book.doc.authors.includes(':')
+                                ? book.doc.authors.split(':')[1]
+                                : book.doc.authors
+                        }
+                        
+                        </span></li>
+                    </ul>
+                </div>`
+        )
+        .join('');
 }
+
+document.getElementById('title-holder').innerHTML = searchTitleBooksHTML;
+document.getElementById('author-holder').innerHTML = searchAuthorBooksHTML;
+document.getElementById('keyword-holder').innerHTML = searchKeywordBooksHTML;
 
 const getPopularLoanBooks = async () => {
     url.searchParams.set('format', 'json');
@@ -202,7 +247,38 @@ const getPopularLoanBooksByGender = async(e) => {
     url.searchParams.set('gender', gender);
     getPopularLoanBooksData();
 }
+
 window.addEventListener('resize', itemCountCalculator);
+
+// 검색창 부분
+const searchBtn = document.getElementById('search-btn');
+const searchInput = document.getElementById('search-input');
+const searchType = document.querySelectorAll('.search-type');
+
+// 검색 타입 버튼
+searchType.forEach(btn => {
+    btn.addEventListener('click', function(){
+        console.log(btn.id);
+    });
+});
+
+// 검색 하기 버튼
+searchBtn.addEventListener('click', function () {
+    const inputValue = searchInput.value.trim();
+
+    if (!inputValue) {
+        const returnVal = prompt("검색어를 입력해 주세요");
+
+        if (returnVal) {
+            searchInput.value = returnVal;
+            console.log(returnVal);
+            searchBook(returnVal);
+        }
+    } else {
+        console.log(inputValue);
+        searchBook(inputValue);
+    }
+});
 
 getPopularLoanBooks();
 
@@ -269,22 +345,3 @@ const moveToPage = (pageNum) => {
     page = pageNum;
     getPopularLoanBooksData();
 }
-
-//  <li class="page-item">
-//     <a class="page-link" href="#" aria-label="Previous">
-//       <span aria-hidden="true">&laquo;</span>
-//     </a>
-//   </li>
-    
-//   <li class="page-item"><a class="page-link" href="#">2</a></li>
-//   <li class="page-item"><a class="page-link" href="#">3</a></li>
-//   <li class="page-item">
-//     <a class="page-link" href="#" aria-label="Next">
-//       <span aria-hidden="true">&raquo;</span>
-//     </a>
-//   </li> 
-
-// 1. 버튼들에 클릭이벤트
-// 2. 지역 별 책들 가져오기
-// 3. 그 책들을 보여주기
-
