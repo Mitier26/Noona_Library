@@ -11,7 +11,25 @@ let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
 let url1 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
 let bookList = [];
 let popularLoanBooksList = [];
+// 지역, 성별, 나이 탭을 가져옴
+const tabs = document.querySelectorAll("#yb-popular-loan-books-menu button")
+console.log("tabs",tabs);
+tabs.forEach(mode=>mode.addEventListener("click", (e)=>popularLoanBooksFilter(e)));
 
+const regionMenu = document.querySelectorAll(".region-menu");
+const ageMenu = document.querySelectorAll(".age-menu");
+const genderMenu = document.querySelectorAll(".gender-menu");
+
+console.log("regionMenu : ", regionMenu);
+console.log("ageMenu : ", ageMenu);
+console.log("genderMenu : ", genderMenu);
+
+regionMenu.forEach(region => 
+    region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+ageMenu.forEach(age => 
+    age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+genderMenu.forEach(gender => 
+    gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 
 // // 화면에 표시되는 줄수
 // const lineCount = 3;
@@ -96,20 +114,99 @@ let popularLoanBooksList = [];
 
 // 인기도서대출 리스트 뽑기
 
+
+
+const popularLoanBooksFilter = (e) => {
+    let mode = e.target.id
+    console.log("mode", mode);
+    let filterHTML = ``
+    if(mode === "region"){
+        filterHTML = `
+        <select class="form-select region-menu" aria-label="Default select example">
+            <option selected>전국</option>
+            <option value="11">서울</option>
+            <option value="21">부산</option>
+            <option value="22">대구</option>
+            <option value="23">인천</option>
+            <option value="24">광주</option>
+            <option value="25">대전</option>
+            <option value="26">울산</option>
+            <option value="29">세종</option>
+            <option value="31">경기</option>
+            <option value="32">강원</option>
+            <option value="33">충북</option>
+            <option value="34">충남</option>
+            <option value="35">전북</option>
+            <option value="36">전남</option>
+            <option value="37">경북</option>
+            <option value="38">경남</option>
+            <option value="39">제주</option>
+        </select>`
+        document.getElementById('filter').innerHTML=filterHTML
+    }else if(mode === "age"){
+        filterHTML = `
+        <select class="form-select age-menu" aria-label="Default select example">
+            <option selected>전체</option>
+            <option value="0">영유아(0~5세)</option>
+            <option value="6">유아(6~7세)</option>
+            <option value="8">초등(8~13세)</option>
+            <option value="14">청소년(14~19세)</option>
+            <option value="20">20대</option>
+            <option value="30">30대</option>
+            <option value="40">40대</option>
+            <option value="50">50대</option>
+            <option value="60">60세 이상</option>
+            <option value="-1">미상</option>
+        </select>`
+        document.getElementById('filter').innerHTML=filterHTML;
+    }else if(mode === "gender"){
+        filterHTML = `
+        <select class="form-select gender-menu" aria-label="Default select example">
+            <option selected>전체</option>
+            <option value="0">남성</option>
+            <option value="1">여성</option>
+            <option value="2">미상</option>
+        </select>`
+        document.getElementById('filter').innerHTML=filterHTML;
+    }
+}
+
 const getPopularLoanBooks = async () => {
     url.searchParams.set('format', 'json');
     url.searchParams.set('startDt', '2024-01-01');
     url.searchParams.set('endDt', '2024-02-29');
-    url.searchParams.set('gender', 1);
-    url.searchParams.set('age', 20);
 
-    const response = await fetch(url);
-    console.log("response : ", response);
-    const data = await response.json();
-    popularLoanBooksList = data.response.docs
-    console.log("popularLoanBooksList : ", popularLoanBooksList);
-    popularLoanBooksRender();
+    getPopularLoanBooksData()
 };
+
+const getPopularLoanBooksData = async() => {
+    let response = await fetch(url);
+    const data = await response.json();
+    console.log("data:",data);
+    popularLoanBooksList = data.response.docs;
+    popularLoanBooksRender();
+}
+
+const getPopularLoanBooksByRegion = async(e) => {
+    const region = e.target.value;
+    console.log("region", region);
+    url.searchParams.set('region', region);
+    getPopularLoanBooksData();
+};
+
+const getPopularLoanBooksByAge = async(e) => {
+    const age = e.target.value;
+    console.log("age", age);
+    url.searchParams.set('age', age);
+    getPopularLoanBooksData();
+}
+
+const getPopularLoanBooksByGender = async(e) => {
+    const gender = e.target.value;
+    console.log("gender", gender);
+    url.searchParams.set('gender', gender);
+    getPopularLoanBooksData();
+}
 
 getPopularLoanBooks();
 
@@ -127,6 +224,10 @@ const popularLoanBooksRender = () => {
         </div>
     </div>`
     ).join("");
-    console.log("popularLoanBooksHTML", popularLoanBooksHTML);
     document.getElementById('yb-popular-loan-books').innerHTML=popularLoanBooksHTML
 }
+
+// 1. 버튼들에 클릭이벤트
+// 2. 지역 별 책들 가져오기
+// 3. 그 책들을 보여주기
+
