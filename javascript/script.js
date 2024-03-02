@@ -8,6 +8,35 @@ let bookList = [];
 let url1 = new URL('http://data4library.kr/api/srchBooks?');
 let url2 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
 
+let filterSelect = ['지역','연령','성별'];
+const filterDefault = ['지역','연령','성별'];
+const filterBtn = document.querySelectorAll('.filterBtn');
+console.log(filterBtn)
+
+const updateFilterSelect = (index, text) => {
+    filterSelect[index] = text;
+    console.log(filterSelect);
+
+    for(let i=0;i<filterBtn.length;i++){
+        if (filterSelect[i] !== filterDefault[i]) {
+            filterBtn[i].style.display = "inline";
+        } else {
+            filterBtn[i].style.display = "none";
+        }
+        filterBtn[i].innerHTML = filterSelect[i];
+    }
+}
+
+filterBtn.forEach((element,index) => {
+    element.addEventListener("click",function(){
+        console.log("click");
+        filterSelect[index] = filterDefault[index]
+        updateFilterSelect();
+    })
+});
+
+
+
 // 날씨 아이콘
 $.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',function(data){
         //data로 할일 작성
@@ -70,7 +99,7 @@ const popularLoanBooksFilter = (e) => {
     let filterHTML = ``
     if(mode === "region"){
         filterHTML = `
-        <select class="form-select region-menu" aria-label="Default select example">
+        <select id="filterSelectPlace" class="form-select region-menu" aria-label="Default select example">
             <option selected>전국</option>
             <option value="11">서울</option>
             <option value="21">부산</option>
@@ -91,10 +120,13 @@ const popularLoanBooksFilter = (e) => {
             <option value="39">제주</option>
         </select>`
         document.getElementById('filter').innerHTML=filterHTML
+        document.getElementById("filterSelectPlace").addEventListener("change", function() {
+            updateFilterSelect(0, this.options[this.selectedIndex].text);
+        });
     }else if(mode === "age"){
         filterHTML = `
-        <select class="form-select age-menu" aria-label="Default select example">
-            <option selected>전체</option>
+        <select id="filterSelectAge" class="form-select age-menu" aria-label="Default select example">
+            <option selected value="-1">전체</option>
             <option value="0">영유아(0~5세)</option>
             <option value="6">유아(6~7세)</option>
             <option value="8">초등(8~13세)</option>
@@ -104,18 +136,23 @@ const popularLoanBooksFilter = (e) => {
             <option value="40">40대</option>
             <option value="50">50대</option>
             <option value="60">60세 이상</option>
-            <option value="-1">미상</option>
         </select>`
         document.getElementById('filter').innerHTML=filterHTML;
+        document.getElementById("filterSelectAge").addEventListener("change", function() {
+            updateFilterSelect(1, this.options[this.selectedIndex].text);
+        });
+        
     }else if(mode === "gender"){
         filterHTML = `
-        <select class="form-select gender-menu" aria-label="Default select example">
-            <option selected>전체</option>
+        <select id="filterSelectGender" class="form-select gender-menu" aria-label="Default select example">
+            <option selected value="2">전체</option>
             <option value="0">남성</option>
             <option value="1">여성</option>
-            <option value="2">미상</option>
         </select>`
         document.getElementById('filter').innerHTML=filterHTML;
+        document.getElementById("filterSelectGender").addEventListener("change", function() {
+            updateFilterSelect(2, this.options[this.selectedIndex].text);
+        });
     }
 }
 
@@ -505,3 +542,4 @@ function modalRender() {
 
     document.getElementById('modal-content').innerHTML = booksHTML;
 }
+

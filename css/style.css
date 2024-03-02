@@ -207,8 +207,53 @@ a{
     margin: 20px 0;
 }
 
-#yb-popular-loan-books-menu button{
-    margin-right: 20px;
-    height:50px;
-    width: 80px;
+.sh-searchFilter section{
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
+
+.filterSelect .form-select{
+    margin-left: 5px;
+    min-width: 160px;
+}
+
+.filterSelect .btn{
+    height: 40px;
+    width: 70px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.filterSelect{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    height: 60px;
+}
+
+.filterBtnSection{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    text-align: center;
+    height: 60px;
+}
+
+.filterBtn{
+    background-color: lightgray;
+    opacity: 0.5;
+    display: none;
+}
+
+.search-sh{
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-sh *{
+    height: 40px;
+}
+
