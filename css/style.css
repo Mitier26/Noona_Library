@@ -100,35 +100,17 @@ body {
     justify-content: center;
 }
 
-.col-4{
-    background-color: aqua;
+a{
+    text-decoration: none;
 }
 
 .tem{
     display: flex;
 }
 
-.tem.div{
-    top: 50%;
-}
-
-.chightemp{
-    color:red;
-    font-size: 30px;
-}
-
-.clowtemp{
-    color:blue;
-    font-size: 30px;
-}
-
 .form-control{
     width: 1000px;
     height: 70px;
-}
-
-.form-select{
-    width: 1100px
 }
 
 .d-flex{
@@ -141,12 +123,10 @@ body {
 
 .yb-popular-loan-books-content{
     margin: 20px;
-    background-color: blue;
     margin : 20px;
 }
 
 .display{
-    background-color: blueviolet;
 }
 
 .row{
@@ -154,6 +134,29 @@ body {
 }
 
 .yb-pagination{
-    background-color: aquamarine;
     margin : 20px;
+    padding : 20px;
+}
+
+.chightemp{
+    color: rgba(255, 0, 0, 0.633);
+}
+
+.ctemp{
+    color: rgb(78, 78, 78);
+}
+
+.search-section{
+    display: flex;
+    justify-content: center;
+}
+
+#yb-popular-loan-books-menu{
+    margin: 20px 0;
+}
+
+#yb-popular-loan-books-menu button{
+    margin-right: 20px;
+    height:50px;
+    width: 80px;
 }

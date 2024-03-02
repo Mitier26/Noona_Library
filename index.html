@@ -26,26 +26,30 @@
         <link rel="icon" href="./asset/favicon.png" type="image/x-icon"/>
     </head>
     <body>
+        <nav class="navbar bg-body-tertiary">
+            <div class="container">
+              <a class="navbar-brand" href="#">
+                <img src="./asset/누나의 도서검색.png"  width="130" height="100">
+              </a>
+              <div class="col-4">
+                <a class="ctemp">현재 : </a>
+                <a class="cicon" width="30" height="24" class="d-inline-block align-text-top" > </a>
+                <a class="chightemp"> 최고 : </a>
+                &nbsp;&nbsp;&nbsp;<a class="clowtemp"> 최저 : </a>
+                
+
+              </div>
+            </div>
+        </nav>
         <div class="container">
             <!-- 상단 메뉴 부분 -->
 
             <!-- 날씨&미세먼지, 타이틀, 타이틀 배경 -->
-            <div class="col-4" style="width: 18rem;"id="">
-                    <h4>날씨</h4>
-                    <div class = "tem">
-                        <div class="cicon"></div>
-                        <div>
-                            <div>현재 온도:</div>
-                            <div class="ctemp"></div>
-                        </div>
-                        <div class="chightemp"></div>
-                        <div class="clowtemp">/</div>
-                    </div>
-            </div>
+            
             
             <!-- 중간 메뉴 -->
             <main class = "main">
-                <section>
+                <section class = "search-section">
                     <!-- 검색창 -->
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

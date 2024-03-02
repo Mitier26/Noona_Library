@@ -223,3 +223,8 @@ const ybMoveToPage = (pageNum) => {
     getPopularLoanBooksData();
 }
 
+
+// 검색 시 책 조회
+
+
+
