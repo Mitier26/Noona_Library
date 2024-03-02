@@ -1,15 +1,33 @@
-// 문서가 전부 로딩되면 작동하라는 뜻
-// window.onload = function () {
-// 스크립트 작성 하는 곳
-/*
-        작성자 : 우명균
-    */
-// API 키를 배열로 만들어 키가 막혔을 때 다른 키를 사용한다.
-// ttbmitier1409002
 const API_KEY = `76920f087955f921eb6b6f79d89fc42703ef032dc51e44b6ee7e4be168f2de59`;
 let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
 let url1 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
-let bookList = [];
+
+// 날씨 아이콘
+$.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',function(data){
+        //data로 할일 작성
+        //alert(data.list[0].main.temp_min)
+        let $minTemp=data.main.temp_min;
+        let $maxTemp= data.main.temp_max;
+        let $cTemp=data.main.temp;
+        let $cDate=data.dt;
+        let $wIcon=data.weather[0].icon;
+        
+
+        let $now= new Date($.now())
+        
+        //alert(new Date($.now()))
+        //A.append(B) A요소의 내용 뒤에 B를 추가
+        //A.prepend(B) A요소의 내용 앞에 B를 추가
+        $('.clowtemp').append($minTemp.toFixed(1).toString()+"°C");
+        $('.ctemp').append($cTemp.toFixed(1).toString()+"°C");
+        $('.chightemp').append($maxTemp.toFixed(1).toString()+"°C");
+        $('h4').prepend($now.getFullYear()+'/'+($now.getMonth()+1)+'/'+$now.getDate()+'/'+$now.getHours()+":"+$now.getMinutes())
+        $('.cicon').append('<img src="https://openweathermap.org/img/wn/'+$wIcon+'@2x.png">')
+    })
+
+
+
+// 인기대출도서 목록
 let popularLoanBooksList = [];
 // 지역, 성별, 나이 탭을 가져옴
 const tabs = document.querySelectorAll("#yb-popular-loan-books-menu button")
@@ -22,8 +40,8 @@ const genderMenu = document.querySelectorAll(".gender-menu");
 
 let resultNum = 0;
 let page = 1;
-const pageSize = 20;
-const groupSize = 5;
+const ybPageSize = 20;
+const ybGroupSize = 5;
 
 regionMenu.forEach(region => 
     region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
@@ -106,13 +124,13 @@ const getPopularLoanBooks = async () => {
 
 const getPopularLoanBooksData = async() => {
     url.searchParams.set("pageNo", page);
-    url.searchParams.set("pageSize", pageSize);
+    url.searchParams.set("pageSize", ybPageSize);
     const response = await fetch(url);
     const data = await response.json();
     popularLoanBooksList = data.response.docs;
     resultNum = data.response.resultNum;
     popularLoanBooksRender();
-    paginationRender();
+    ybPaginationRender();
 }
 
 const getPopularLoanBooksByRegion = async(e) => {
@@ -141,7 +159,8 @@ getPopularLoanBooks();
 const popularLoanBooksRender = () => {
     const popularLoanBooksHTML = popularLoanBooksList.map(
         (book)=>
-            `<div class="card" style="width: 14.5rem;">
+            `<div class = "col-lg-3 col-md-6 col-sm-12">
+            <div class="card" style="width: 14.5rem;">
         <div class = "yb-books-ranking">${book.doc.ranking}</div>
         <img src=${book.doc.bookImageURL} class="card-img-top" alt="..."> <!-- 책표지 URL-->
         <div class="card-body">
@@ -150,55 +169,56 @@ const popularLoanBooksRender = () => {
           <div class="card-text">출판사 : ${book.doc.publisher}</div>
           <div class="card-text">출판년도 : ${book.doc.publication_year}</div>
         </div>
+    </div>
     </div>`
     ).join("");
     document.getElementById('yb-popular-loan-books').innerHTML=popularLoanBooksHTML
 }
 
-const paginationRender=()=>{
+const ybPaginationRender=()=>{
     //resultNum
     //page
     //pageSize
-    //groupSize
+    //ybGroupSize
     //totalPages
-    const totalPages = Math.ceil(resultNum/pageSize);
+    const ybTotalPages = Math.ceil(resultNum/ybPageSize);
     //pageGroup
-    const pageGroup = Math.ceil(page/groupSize);
-    //lastPage
-    let lastPage = pageGroup * groupSize;
-    if(lastPage<totalPages){
-        lastPage=totalPages
+    const ybPageGroup = Math.ceil(page/ybGroupSize);
+    //ybLastPage
+    let ybLastPage = ybPageGroup * ybGroupSize;
+    if(ybLastPage<ybTotalPages){
+        ybLastPage=ybTotalPages
     }
 
-    //firstPage
-    const firstPage = lastPage - (groupSize - 1)<=0 ? 1 : lastPage - (groupSize - 1);
+    //ybFirstPage
+    const ybFirstPage = ybLastPage - (ybGroupSize - 1)<=0 ? 1 : ybLastPage - (ybGroupSize - 1);
     
     let paginationHTML = ``
 
 
-    if(firstPage >= 6){
-        paginationHTML = `<a class="page-link" onclick = "moveToPage(1)" aria-label="First-Page">
+    if(ybFirstPage >= 6){
+        paginationHTML = `<a class="page-link" onclick = "ybMoveToPage(1)" aria-label="First-Page">
         <span aria-hidden="true">&laquo;</span>
-      </a><a class="page-link" onclick = "moveToPage(${page-1})" aria-label="Previous">
+      </a><a class="page-link" onclick = "ybMoveToPage(${page-1})" aria-label="Previous">
         <span aria-hidden="true">&lt;</span></a>`;
     }
 
-  for(let i=firstPage;i<=lastPage;i++){
-    paginationHTML+=`<li class="page-item" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`
+  for(let i=ybFirstPage;i<=ybLastPage;i++){
+    paginationHTML+=`<li class="page-item" onclick="ybMoveToPage(${i})"><a class="page-link">${i}</a></li>`
   }
 
-  if(lastPage<resultNum){
-    paginationHTML+=`<a class="page-link" onclick = "moveToPage(${page+1})" aria-label="Next">
+  if(ybLastPage<resultNum){
+    paginationHTML+=`<a class="page-link" onclick = "ybMoveToPage(${page+1})" aria-label="Next">
 <span aria-hidden="true">&gt;</span>
-</a><a class="page-link" onclick = "moveToPage(${resultNum})"aria-label="Last-Page">
+</a><a class="page-link" onclick = "ybMoveToPage(${resultNum})"aria-label="Last-Page">
 <span aria-hidden="true">&raquo;</span>
 </a>`
 }
     document.querySelector(".pagination").innerHTML=paginationHTML;
 }
 
-const moveToPage = (pageNum) => {
-    console.log("moveToPage", pageNum);
+const ybMoveToPage = (pageNum) => {
+    console.log("ybMoveToPage", pageNum);
     page = pageNum;
     getPopularLoanBooksData();
 }

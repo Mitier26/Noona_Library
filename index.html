@@ -4,43 +4,68 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>누나 도서관</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <!-- 부트스트렙 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+        <!-- 폰트 어썸: 아이콤 가지고 오는 것 -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <!-- 제이쿼리 -->
+        <script src="/javascript/jquery-3.7.1.min.js" ></script>
+        <!-- 현재 문서 스타일 -->
         <link rel="stylesheet" href="/css/style.css" />
+        <link rel="icon" href="./asset/favicon.png" type="image/x-icon"/>
     </head>
     <body>
         <div class="container">
             <!-- 상단 메뉴 부분 -->
-            <header>
-                <!-- 날씨&미세먼지, 타이틀, 타이틀 배경 -->
-            </header>
 
+            <!-- 날씨&미세먼지, 타이틀, 타이틀 배경 -->
+            <div class="col-4" style="width: 18rem;"id="">
+                    <h4>날씨</h4>
+                    <div class = "tem">
+                        <div class="cicon"></div>
+                        <div>
+                            <div>현재 온도:</div>
+                            <div class="ctemp"></div>
+                        </div>
+                        <div class="chightemp"></div>
+                        <div class="clowtemp">/</div>
+                    </div>
+            </div>
+            
             <!-- 중간 메뉴 -->
-            <main>
+            <main class = "main">
                 <section>
                     <!-- 검색창 -->
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
                 </section>
+
+
                 <aside>
                     <!-- 자료유형 사이드바 -->
                 </aside>
 
-                    <!-- 메인 도서 리스트& 페이지네이션 -->
-                    <!-- <div class="card">
-                        <img src="/images/noimage.png" alt="" />
-                        <ul>
-                            <li>제목<span>...</span></li>
-                            <li>작가<span>...</span></li>
-                            <li>분류<span>...</span></li>
-                            <li>발행자<span>...</span></li>
-                            <li>발행일<span>...</span></li>
-                        </ul>
-                    </div> -->
-                <div class="container">
-                    <section id="yb-popular-loan-books-menu">
+                    
+                <section class = "display">
+                    <div id="yb-popular-loan-books-menu">
                         <button id = "region" class="btn btn-primary" type="submit">지역</button>
                         <button id = "age" class="btn btn-primary" type="submit">연령</button>
                         <button id = "gender" class="btn btn-primary" type="submit">성별</button>
-                    </section>
-                    <section id="filter">
+                    </div>
+                    <div id="filter">
                         <select  class="form-select region-menu" aria-label="Default select example">
                             <option selected>전국</option>
                             <option value="11">서울</option>
@@ -61,29 +86,35 @@
                             <option value="38">경남</option>
                             <option value="39">제주</option>
                         </select>
-                    </section>
-                    <section id="yb-popular-loan-books">
-                        <div class="card" style="width: 14.5rem;">
-                            <h2 class = "yb-books-ranking">순위</h2>
-                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340770.jpg" class="card-img-top" alt="..."> <!-- 책표지 URL-->
-                            <div class="card-body">
-                              <h3 class="card-title">도서명</h3>
-                              <br>
-                              <p class="card-text">저자명 : </p>
-                              <p class="card-text">출판사 : </p>
-                              <p class="card-text">출판년도 : </p>
-                            </div>
-                        </div>
-                    </section>
-                    <section>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                              
-                            </ul>
-                          </nav>
+                    </div>
+
+                    <section class = "yb-popular-loan-books-content">
+                        <section id="yb-popular-loan-books" class = "row">
+                            <div class = "col-lg-3 col-md-6 col-sm-12">
+                                <div> class="card" style="width: 14.5rem;">
+                                    <h2 class = "yb-books-ranking">순위</h2>
+                                    <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340770.jpg" class="card-img-top" alt="..."> <!-- 책표지 URL-->
+                                    <div class="card-body">
+                                    <h3 class="card-title">도서명</h3>
+                                    <br>
+                                    <p class="card-text">저자명 : </p>
+                                    <p class="card-text">출판사 : </p>
+                                    <p class="card-text">출판년도 : </p>
+                                    </div>
+                                </div>
+                            <div>
+                        </section>
+
+                        <section class = "yb-pagination">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                
+                                </ul>
+                            </nav>
+                        </section>
                     </section>
                 
-                </div>
+                </section>
 
             </main>
 
