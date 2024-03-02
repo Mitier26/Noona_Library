@@ -126,7 +126,9 @@ body {
     padding: 10px;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: minmax(150px, auto);
-    grid-gap: 10px;
+    grid-gap: 10px; */
+    padding: 10px;
+    
 }
 
 .card-title {
@@ -150,26 +152,63 @@ body {
     justify-content: center;
 }
 
-.modal-body {
+a{
+    text-decoration: none;
+}
+
+.tem{
+    display: flex;
+}
+
+.form-control{
+    width: 1000px;
+    height: 70px;
+}
+
+.d-flex{
+    margin: 100px 0;
+}
+
+.main{
+    justify-content: center;;
+}
+
+.yb-popular-loan-books-content{
+    margin: 20px;
+    margin : 20px;
+}
+
+.display{
+}
+
+.row{
+    justify-content: center;
+}
+
+.yb-pagination{
+    margin : 20px;
+    padding : 20px;
+}
+
+.chightemp{
+    color: rgba(255, 0, 0, 0.633);
+}
+
+.ctemp{
+    color: rgb(78, 78, 78);
+}
+
+.search-section{
     display: flex;
     justify-content: center;
 }
-.modal-body img {
-    width: 50%;
+
+#yb-popular-loan-books-menu{
+    margin: 20px 0;
 }
 
-.modal-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: start;
-}
-#modal-content {
-    background-color: white;
-    border-radius: 10px;
-}
-
-.modal-dialog {
-    background: white;
-    border-radius: 12px;
+#yb-popular-loan-books-menu button{
+    margin-right: 20px;
+    height:50px;
+    width: 80px;
 }
