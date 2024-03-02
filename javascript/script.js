@@ -2,7 +2,7 @@
 window.onload = function () {
     // 스크립트 작성 하는 곳
     const API_KEY = `f451f1b377d0055a79e2ed0208d5a45c4f1ec7a8edce14b2e85f5f09d19ef2db`;
-    let url = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
+    let url = new URL(`https://www.nl.go.kr/NL/search/openApi/search.do?authkey=${API_KEY}`);
     let bookList = [];
 
     let pageNum = 1;

@@ -22,3 +22,7 @@
     justify-content: left;
     align-items: center;
 }
+
+.carousel-item{
+    max-height: 400px;
+}
