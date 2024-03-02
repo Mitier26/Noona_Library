@@ -38,6 +38,28 @@ genderMenu.forEach(gender =>
 let response;
 let date;
 
+$.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',function(data){
+        //data로 할일 작성
+        //alert(data.list[0].main.temp_min)
+        let $minTemp=data.main.temp_min;
+        let $maxTemp= data.main.temp_max;
+        let $cTemp=data.main.temp;
+        let $cDate=data.dt;
+        let $wIcon=data.weather[0].icon;
+        
+
+        let $now= new Date($.now())
+        
+        //alert(new Date($.now()))
+        //A.append(B) A요소의 내용 뒤에 B를 추가
+        //A.prepend(B) A요소의 내용 앞에 B를 추가
+        $('.clowtemp').append($minTemp);
+        $('.ctemp').append($cTemp);
+        $('.chightemp').append($maxTemp);
+        $('h2').prepend($now.getFullYear()+'/'+($now.getMonth()+1)+'/'+$now.getDate()+'/'+$now.getHours()+":"+$now.getMinutes())
+        $('.cicon').append('<img src="https://openweathermap.org/img/wn/'+$wIcon+'@2x.png">')
+    })
+
 async function searchBook(keyword) {
     try {
 
