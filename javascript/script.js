@@ -41,9 +41,10 @@ let date;
 $.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',function(data){
         //data로 할일 작성
         //alert(data.list[0].main.temp_min)
-        let $minTemp=data.main.temp_min;
-        let $maxTemp= data.main.temp_max;
-        let $cTemp=data.main.temp;
+        let $minTemp=(data.main.temp_min).toFixed(1);
+        
+        let $maxTemp=(data.main.temp_max).toFixed(1);
+        let $cTemp=(data.main.temp).toFixed(1);
         let $cDate=data.dt;
         let $wIcon=data.weather[0].icon;
         
