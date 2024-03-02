@@ -227,6 +227,13 @@ function searchRender() {
   document.getElementById("keyword-holder").innerHTML = searchKeywordBooksHTML;
 }
 
+// 더 보기
+// 키워드, 타이틀, 작가, 가지고 가야한다.
+// 어떤 더 보기를 클릭 했는 지 알아야 한다.
+function moreRender(input){
+    console.log(input);
+}
+
 const getPopularLoanBooks = async () => {
   url.searchParams.set("format", "json");
   url.searchParams.set("startDt", "2024-01-01");

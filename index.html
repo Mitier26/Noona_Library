@@ -126,6 +126,7 @@
         </aside>
 
         <div class="container">
+<<<<<<< Updated upstream
           <section id="yb-popular-loan-books-menu">
             <button id="region" class="btn btn-primary" type="submit">
               지역
@@ -190,6 +191,64 @@
             </nav>
           </section>
         </div>
+=======
+            <!-- 상단 메뉴 부분 -->
+            <header class="row">
+                <div class="col-8">
+                    <div class="main-title-sh">
+                        <img class="title-img-sh" src="./asset/누나의 도서검색.png"/>
+                        <h1>누나의 도서관 서적 검색</h1>
+                    </div>
+                </div>
+                <!-- 날씨&미세먼지, 타이틀, 타이틀 배경 -->
+                <div class="col-4">
+                    <div id="">
+                        <h2 class="wt">- 날씨 예보</h2>
+                        <div class="ctemp">현재 온도: </div>
+                        <div class="clowtemp">최저 온도: </div>
+                        <div class="chightemp">최고 온도: </div>
+                        <div class="cicon">아이콘 : </div>
+                    </div>
+                </div>
+            </header>
+            <!-- 중간 메뉴 -->
+            <main>
+                <!-- 이미지 슬라이드 -->
+                <section class="row">
+                    <div id="carouselExampleIndicators" class="carousel slide">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="./asset/누나의 도서검색.png" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/noimage.png" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/asset/favicon.png" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </section>
+                <section>
+                    <!-- 검색창 -->
+                </section>
+                <aside>
+                    <!-- 자료유형 사이드바 -->
+                </aside>
+>>>>>>> Stashed changes
 
         <div class="input-area">
           <div
@@ -244,6 +303,7 @@
           </div>
           <div class="mg-holder" id="title-holder"></div>
 
+<<<<<<< Updated upstream
           <div class="search-info">
             <h4>작가 검색 결과</h4>
             <button>더 보기 -></button>
@@ -266,6 +326,132 @@
         </section>
 
         <!-- Button trigger modal @@테스트버튼@@-->
+=======
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
+                            <input type="text" class="form-control" id="search-input">
+                            <button class="btn btn-outline-secondary" type="button" id="search-btn">검색</button>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="mg-section">
+                    <div id="mg-holder1">
+                        <div class="search-info">
+                            <h4>제목 검색 결과</h4>
+                            <button onclick="moreRender('title')">더 보기 -></button>
+                        </div>
+                        <div class="mg-card-holder" id="title-holder">
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        <div class="search-info">
+                            <h4>작가 검색 결과</h4>
+                            <button onclick="moreRender('author')">더 보기 -></button>
+                        </div>
+                        <div class="mg-card-holder" id="author-holder">
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        <div class="search-info">
+                            <h4>키워드 검색 결과</h4>
+                            <button onclick="moreRender('keyword')">더 보기 -></button>
+                        </div>
+                        <div class="mg-card-holder" id="keyword-holder">
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mg-holder2">
+                        <h2>검색 결과</h2>
+                        <div class="mg-all-card-holder" id="keyword-holder">
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                            <div class="card" onclick="getBookhj('9791161571379')">
+                                <img src="/images/noimage.png" alt="" />
+                                <ul>
+                                    <li>제목<span>${aaaaaa}</span></li>
+                                    <li>작가<span>${ddddddddd}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </section>
+>>>>>>> Stashed changes
 
         <!-- <button
           type="button"
