@@ -6,7 +6,7 @@ let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
 
 let bookList = [];
 let url1 = new URL('http://data4library.kr/api/srchBooks?');
-let url1 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
+let url2 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
 
 // 날씨 아이콘
 $.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',function(data){
@@ -27,7 +27,7 @@ $.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185e
         $('.clowtemp').append($minTemp.toFixed(1).toString()+"°C");
         $('.ctemp').append($cTemp.toFixed(1).toString()+"°C");
         $('.chightemp').append($maxTemp.toFixed(1).toString()+"°C");
-        $('h4').prepend($now.getFullYear()+'/'+($now.getMonth()+1)+'/'+$now.getDate()+'/'+$now.getHours()+":"+$now.getMinutes())
+        // $('h4').prepend($now.getFullYear()+'/'+($now.getMonth()+1)+'/'+$now.getDate()+'/'+$now.getHours()+":"+$now.getMinutes())
         $('.cicon').append('<img src="https://openweathermap.org/img/wn/'+$wIcon+'@2x.png">')
     })
 
@@ -116,6 +116,16 @@ const popularLoanBooksFilter = (e) => {
             <option value="2">미상</option>
         </select>`
         document.getElementById('filter').innerHTML=filterHTML;
+    }
+}
+
+regionMenu.forEach(region => 
+    region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+ageMenu.forEach(age => 
+    age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+genderMenu.forEach(gender => 
+    gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
+
 async function searchBook(keyword) {
     try {
         keyword = '환경';
@@ -144,12 +154,7 @@ async function searchBook(keyword) {
         authorSearchList = data.response.docs;
         url1.searchParams.delete('author');
 
-regionMenu.forEach(region => 
-    region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
-ageMenu.forEach(age => 
-    age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
-genderMenu.forEach(gender => 
-    gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
+
         // keyword 검색
         url1.searchParams.set('keyword', keyword);
         response = await fetch(url1);
@@ -169,15 +174,15 @@ genderMenu.forEach(gender =>
         console.error(error);
 
     }
-    const regionMenu = document.querySelectorAll(".region-menu");
-    const ageMenu = document.querySelectorAll(".age-menu");
-    const genderMenu = document.querySelectorAll(".gender-menu"); 
-    regionMenu.forEach(region => 
-        region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
-    ageMenu.forEach(age => 
-        age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
-    genderMenu.forEach(gender => 
-        gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
+    // const regionMenu = document.querySelectorAll(".region-menu");
+    // const ageMenu = document.querySelectorAll(".age-menu");
+    // const genderMenu = document.querySelectorAll(".gender-menu"); 
+    // regionMenu.forEach(region => 
+    //     region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+    // ageMenu.forEach(age => 
+    //     age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+    // genderMenu.forEach(gender => 
+    //     gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 }
 
 function searchRender() {
@@ -428,8 +433,6 @@ const ybPaginationRender=()=>{
     const ybFirstPage = ybLastPage - (ybGroupSize - 1)<=0 ? 1 : ybLastPage - (ybGroupSize - 1);
     
     let paginationHTML = ``
-
-    let paginationHTML = ``;
 
     if(ybFirstPage >= 6){
         paginationHTML = `<a class="page-link" onclick = "ybMoveToPage(1)" aria-label="First-Page">
