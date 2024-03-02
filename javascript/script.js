@@ -170,6 +170,15 @@ const popularLoanBooksFilter = (e) => {
         </select>`
         document.getElementById('filter').innerHTML=filterHTML;
     }
+    const regionMenu = document.querySelectorAll(".region-menu");
+    const ageMenu = document.querySelectorAll(".age-menu");
+    const genderMenu = document.querySelectorAll(".gender-menu"); 
+    regionMenu.forEach(region => 
+        region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+    ageMenu.forEach(age => 
+        age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+    genderMenu.forEach(gender => 
+        gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 }
 
 const getPopularLoanBooks = async () => {
@@ -185,7 +194,6 @@ const getPopularLoanBooksData = async() => {
     url.searchParams.set("pageSize", pageSize);
     const response = await fetch(url);
     const data = await response.json();
-    console.log("data:",data);
     popularLoanBooksList = data.response.docs;
     resultNum = data.response.resultNum;
     popularLoanBooksRender();
@@ -263,10 +271,11 @@ const paginationRender=()=>{
   for(let i=firstPage;i<=lastPage;i++){
     paginationHTML+=`<li class="page-item" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`
   }
-  if(lastPage<totalPages){
+
+  if(lastPage<resultNum){
     paginationHTML+=`<a class="page-link" onclick = "moveToPage(${page+1})" aria-label="Next">
 <span aria-hidden="true">&gt;</span>
-</a><a class="page-link" onclick = "moveToPage(${totalPages})"aria-label="Last-Page">
+</a><a class="page-link" onclick = "moveToPage(${resultNum})"aria-label="Last-Page">
 <span aria-hidden="true">&raquo;</span>
 </a>`
 }
@@ -274,7 +283,7 @@ const paginationRender=()=>{
 }
 
 const moveToPage = (pageNum) => {
-    console.log("movetopage", pageNum);
+    console.log("moveToPage", pageNum);
     page = pageNum;
     getPopularLoanBooksData();
 }
