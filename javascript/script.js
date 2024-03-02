@@ -70,7 +70,6 @@ $.getJSON(
 
 async function searchBook(keyword) {
     try {
-        keyword = '환경';
         url1.searchParams.set('authKey', API_KEY1[0]);
         url1.searchParams.set('pageNo', 1);
         url1.searchParams.set('pageSize', 1);
@@ -120,7 +119,7 @@ function searchRender() {
     let searchTitleBooksHTML = titleSearchList
         .map(
             (book) =>
-                `<div class="card" onclick='getBookhj('${book.doc.isbn13}')'>
+                `<div class="card" onclick="getBookhj('${book.doc.isbn13}')">
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -150,7 +149,7 @@ function searchRender() {
     let searchAuthorBooksHTML = authorSearchList
         .map(
             (book) =>
-                `<div class="card" onclick='getBookhj('${book.doc.isbn13}')'>
+                `<div class="card" onclick="getBookhj('${book.doc.isbn13}')">
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -180,7 +179,7 @@ function searchRender() {
     let searchKeywordBooksHTML = keywordSearchList
         .map(
             (book) =>
-                `<div class="card"  onclick='getBookhj('${book.doc.isbn13}')'>
+                `<div class="card" onclick="getBookhj('${book.doc.isbn13}')">
                     <img src="${book.doc.bookImageURL}" alt="" />
                     <ul>
                         <li>제목<span>${
@@ -221,6 +220,8 @@ let moreList = [];
 async function moreSearcher(input) {
     let newUrl = new URL('http://data4library.kr/api/srchBooks?');
 
+    newUrl.searchParams.set('authKey', API_KEY1[0]);
+
     if (input === 'keyword') {
         newUrl.searchParams.set('keyword', searchWord);
     } else if (input === 'author') {
@@ -229,13 +230,50 @@ async function moreSearcher(input) {
         newUrl.searchParams.set('title', searchWord);
     }
 
-    newUrl.searchParams.set('pageSize', itemCountCalculator());
+    newUrl.searchParams.set('pageSize', 1);
+    // newUrl.searchParams.set('pageSize', itemCountCalculator());
+    newUrl.searchParams.set('format', 'json');
 
-    data = await response.json();
+    let response = await fetch(newUrl);
+    let data = await response.json();
     moreList = data.response.docs;
+
+    moreRender();
 }
 
-function moreRender() {}
+function moreRender() {
+    let moreHtml = moreList
+        .map(
+            (book) =>
+                `<div class="card" onclick="getBookhj('${book.doc.isbn13}')">
+                    <img src="${book.doc.bookImageURL}" alt="" />
+                    <ul>
+                        <li>제목<span>${
+                            book.doc.bookname.split(':')[0].length >= 0
+                                ? book.doc.bookname.split(':')[0].slice(0, 8) + '...'
+                                : book.doc.bookname.split(':')[0]
+                        }</span></li>
+                        <li>작가<span>
+                        ${
+                            book.doc.authors.includes(';')
+                                ? (book.doc.authors.split(';')[0].includes(':')
+                                      ? book.doc.authors.split(';')[0].split(':')[1]
+                                      : book.doc.authors.split(';')[0]) +
+                                  '<br>' +
+                                  book.doc.authors.split(';')[1]
+                                : book.doc.authors.includes(':')
+                                ? book.doc.authors.split(':')[1]
+                                : book.doc.authors
+                        }
+                        
+                        </span></li>
+                    </ul>
+                </div>`
+        )
+        .join('');
+
+    document.getElementById('more-holder').innerHTML = moreHtml;
+}
 
 const getPopularLoanBooks = async () => {
     url.searchParams.set('format', 'json');
@@ -394,12 +432,14 @@ const moveToPage = (pageNum) => {
 
 // 모달
 const getBookhj = async (isbn13) => {
-    const url2 = new URL(`http://data4library.kr/api/srchBooks?authKey=${API_KEY2}`);
+    const url2 = new URL(`https://data4library.kr/api/srchDtlList?authKey=${API_KEY2}`);
     url2.searchParams.set('isbn13', isbn13);
     url2.searchParams.set('format', 'json');
     const response = await fetch(url2);
+    console.log(response);
     const data = await response.json();
-    bookList = data.response.docs;
+    console.log(data);
+    bookList = data.response.detail;
 
     console.log(data.response.docs, 'data');
     modalRender();
@@ -411,23 +451,23 @@ function modalRender() {
         .map(
             (book) =>
                 `<div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">${book.doc.bookname}</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">${book.book.bookname}</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
-                <img src="${book.doc.bookImageURL}"/>
+                <img src="${book.book.bookImageURL}"/>
         </div>
             
         <div class="modal-footer">
             <ur class="modal-items">
-                <li class="list-group-item">- 랭킹 :${book.doc.ranking}</li>
-                <li class="list-group-item">- 저자명 :${book.doc.authors}</li>
-                <li class="list-group-item">- 주제분류 :${book.doc.class_nm}</li>
-                <li class="list-group-item">- 출판사 :${book.doc.publisher}</li>
-                <li class="list-group-item">- 책소개 :${book.doc.description}</li>
-                <li class="list-group-item">- 발행년도 :${book.doc.publication_year}</li>
-                <li class="list-group-item">- ISBN :${book.doc.isbn13}</li>
+                <li class="list-group-item">- 랭킹 :${book.book.no}</li>
+                <li class="list-group-item">- 저자명 :${book.book.authors}</li>
+                <li class="list-group-item">- 주제분류 :${book.book.class_nm}</li>
+                <li class="list-group-item">- 출판사 :${book.book.publisher}</li>
+                <li class="list-group-item">- 책소개 :${book.book.description}</li>
+                <li class="list-group-item">- 발행년도 :${book.book.publication_year}</li>
+                <li class="list-group-item">- ISBN :${book.book.isbn13}</li>
             </ur>
         </div>
         `
