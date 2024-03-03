@@ -3,24 +3,33 @@
     padding: 0;
     box-sizing: border-box;
 }
+a {
+    text-decoration: none;
+}
+
+.carousel-inner {
+    max-height: 600px;
+}
 
 body {
     max-height: 100vh;
     width: 100%;
 }
 
-#mg-section {
+.navbar-wether {
     display: flex;
+    justify-content: right;
+    text-align: center;
+    align-items: center;
+}
+
+#mg-card-holder {
+    display: flex;
+    /* display: none; */
     flex-wrap: wrap;
     justify-content: space-around;
     gap: 10px;
     margin-top: 30px;
-}
-
-#mg-holder1 {
-    width: 100%;
-    min-height: 1250px;
-    /* display: none; */
 }
 
 .search-info {
@@ -32,7 +41,7 @@ body {
     margin-top: 20px;
 }
 
-.mg-card-holder {
+.mg-holder {
     width: 100%;
     padding: 10px;
     overflow-x: auto;
@@ -92,6 +101,7 @@ body {
 }
 
 .container {
+    margin-top: 1em;
     justify-content: center;
 }
 
@@ -141,26 +151,112 @@ body {
     justify-content: center;
 }
 
-.modal-body {
+a {
+    text-decoration: none;
+}
+
+.tem {
+    display: flex;
+}
+
+.form-control {
+    width: 1000px;
+    height: 70px;
+}
+
+.d-flex {
+    margin: 100px 0;
+}
+
+.main {
+    justify-content: center;
+}
+
+.yb-popular-loan-books-content {
+    margin: 20px;
+    margin: 20px;
+}
+
+.row {
+    justify-content: center;
+}
+
+.yb-pagination {
+    margin: 20px;
+    padding: 20px;
+}
+
+.chightemp {
+    color: rgba(255, 0, 0, 0.633);
+}
+
+.ctemp {
+    color: rgb(78, 78, 78);
+}
+
+.search-section {
     display: flex;
     justify-content: center;
 }
-.modal-body img {
-    width: 50%;
+
+#yb-popular-loan-books-menu {
+    margin: 20px 0;
 }
 
-.modal-footer {
+.sh-searchFilter section {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: start;
+    align-items: center;
+    text-align: center;
 }
+
+.filterSelect .form-select {
+    margin-left: 5px;
+    min-width: 160px;
+}
+
+.filterSelect .btn {
+    height: 40px;
+    width: 70px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.filterSelect {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    height: 60px;
+}
+
+.filterBtnSection {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    text-align: center;
+    height: 60px;
+}
+
+.filterBtn {
+    background-color: lightgray;
+    opacity: 0.5;
+    display: none;
+}
+
+.search-sh {
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-sh * {
+    height: 40px;
+}
+
 #modal-content {
     background-color: white;
-    border-radius: 10px;
 }
 
-.modal-dialog {
-    background: white;
-    border-radius: 12px;
+.switch {
+    display: none;
 }
