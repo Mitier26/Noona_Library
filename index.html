@@ -74,63 +74,72 @@
                     </button>
                 </div>
             </section>
-            <section>
-                  <!-- 검색창 -->
-            </section>
+            
             <div class="container">
-                <div class="sh-searchFilter row">
-                    <div class="col-6 filterSelect">
-                        <section id="yb-popular-loan-books-menu">
-                            <button id = "region" class="btn btn-primary" type="submit">지역</button>
-                            <button id = "age" class="btn btn-primary" type="submit">연령</button>
-                            <button id = "gender" class="btn btn-primary" type="submit">성별</button>
-                        </section>
-                        <section id="filter">
-                            <select id="filterSelectPlace" class="form-select region-menu" aria-label="Default select example">
-                                <option selected>필터를 선택해주세요</option>
-                            </select>
-                        </section>
-                    </div>
-                    <section class="col-6 filterBtnSection">
-                        <div>
-                            <span class="btn btn-primary filterBtn">지역</span>
-                            <span class="btn btn-primary filterBtn">연령</span>
-                            <span class="btn btn-primary filterBtn">성별</span>
-                        </div>
-                    </section>
-                </div>
+
+                <section class = "input-section">
                     <div class="input-area col-12 search-sh">
                         <div class="input-group">
                             <input type="text" class="form-control" id="search-input">
                             <button class="btn btn-outline-secondary" type="button" id="search-btn">검색</button>
                         </div>                  
                     </div>
-                
-                <section id="yb-popular-loan-books">
-                    <div class="card" style="width: 14.5rem;" onclick="getBookhj('9791161571379')">
-                        <h2 class = "yb-books-ranking">순위</h2>
-                        <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340770.jpg" class="card-img-top" alt="..."> <!-- 책표지 URL-->
-                        <div class="card-body">
-                            <h3 class="card-title">도서명</h3>
-                            <br>
-                            <p class="card-text">저자명 : </p>
-                            <p class="card-text">출판사 : </p>
-                            <p class="card-text">출판년도 : </p>
-                        </div>
-                    </div>
                 </section>
-                <section>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            
-                        </ul>
-                    </nav>
+
+                <section id = "yb-popular-loan-boos-section">
+                    <div class="sh-searchFilter row">
+                        <div class="col-6 filterSelect">
+                            <section id="yb-popular-loan-books-menu">
+                                <button id = "region" class="btn btn-primary" type="submit">지역</button>
+                                <button id = "age" class="btn btn-primary" type="submit">연령</button>
+                                <button id = "gender" class="btn btn-primary" type="submit">성별</button>
+                            </section>
+                            <section id="filter">
+                                <select id="filterSelectPlace" class="form-select region-menu" aria-label="Default select example">
+                                    <option selected>필터를 선택해주세요</option>
+                                </select>
+                            </section>
+                        </div>
+                        <section class="col-6 filterBtnSection">
+                            <div>
+                                <span class="btn btn-primary filterBtn">지역</span>
+                                <span class="btn btn-primary filterBtn">연령</span>
+                                <span class="btn btn-primary filterBtn">성별</span>
+                            </div>
+                        </section>
+                    </div>
+                    
+                    <section class = "yb-popular-loan-books-content">
+                        <section id="yb-popular-loan-books" class = "row">
+                            <div class = "col-lg-3 col-md-6 col-sm-12">
+                                <div> class="card" style="width: 14.5rem;">
+                                    <h2 class = "yb-books-ranking">순위</h2>
+                                    <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340770.jpg" class="card-img-top" alt="..."> <!-- 책표지 URL-->
+                                    <div class="card-body">
+                                    <h3 class="card-title">도서명</h3>
+                                    <br>
+                                    <p class="card-text">저자명 : </p>
+                                    <p class="card-text">출판사 : </p>
+                                    <p class="card-text">출판년도 : </p>
+                                    </div>
+                                </div>
+                            <div>
+                        </section>
+
+                        <section class = "yb-pagination">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                
+                                </ul>
+                            </nav>
+                        </section>
+                    </section>
                 </section>
                 
                 <section id="mg-card-holder">
                     <div class="search-info">
                         <h4>제목 검색 결과</h4>
-                        <button onclick="moreSearcher('title')">더 보기 -></button>
+                        <button onclick = "moreSearcher('title')">더 보기 -></button>
                     </div>
                     <div class="mg-holder" id="title-holder">
                         
@@ -138,7 +147,7 @@
 
                     <div class="search-info">
                         <h4>작가 검색 결과</h4>
-                        <button onclick="moreSearcher('author')">더 보기 -></button>
+                        <button onclick=" moreSearcher('author')">더 보기 -></button>
                     </div>
                     <div class="mg-holder" id="author-holder">
                         
@@ -146,16 +155,16 @@
 
                     <div class="search-info">
                         <h4>키워드 검색 결과</h4>
-                        <button onclick="moreSearcher('keyword')">더 보기 -></button>
+                        <button onclick=" moreSearcher('keyword') ">더 보기 -></button>
                     </div>
                     <div class="mg-holder" id="keyword-holder">
-                        <div class="card" onclick="getBookhj('9791161571379')">
+                        <!-- <div class="card" onclick="getBookhj('9791161571379')">
                             <img src="/images/noimage.png" alt="" />
                             <ul>
                                 <li>제목<span>${aaaaaa}</span></li>
                                 <li>작가<span>${ddddddddd}</span></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </section>
 
@@ -203,7 +212,7 @@
                 <p></p>
             </footer>
         </div>
-
+        <!-- 제발 좀 올라가자 -->
         <!-- 부트스트렙 -->
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
