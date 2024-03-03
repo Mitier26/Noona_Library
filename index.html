@@ -30,20 +30,20 @@
             <!-- 상단 메뉴 부분 -->
             <header class="row">
                 <div class="col-8">
-                <div class="main-title-sh">
-                    <img class="title-img-sh" src="./asset/누나의 도서검색.png" />
-                    <h1>누나의 도서관 서적 검색</h1>
-                </div>
+                    <div class="main-title-sh">
+                        <img class="title-img-sh" src="./asset/누나의 도서검색.png" />
+                        <h1>누나의 도서관 서적 검색</h1>
+                    </div>
                 </div>
                 <!-- 날씨&미세먼지, 타이틀, 타이틀 배경 -->
                 <div class="col-4">
-                <div id="">
-                    <h2 class="hh">- 날씨 예보</h2>
-                    <div class="ctemp">현재 온도:</div>
-                    <div class="clowtemp">최저 온도:</div>
-                    <div class="chightemp">최고 온도:</div>
-                    <div class="cicon">아이콘 :</div>
-                </div>
+                    <div id="">
+                        <h2 class="hh">- 날씨 예보</h2>
+                        <div class="ctemp">현재 온도:</div>
+                        <div class="clowtemp">최저 온도:</div>
+                        <div class="chightemp">최고 온도:</div>
+                        <div class="cicon">아이콘 :</div>
+                    </div>
                 </div>
             </header>
             <!-- 중간 메뉴 -->
@@ -117,15 +117,15 @@
                     <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                </section>
-                <section>
-                <!-- 검색창 -->
-                </section>
-                <aside>
-                <!-- 자료유형 사이드바 -->
-                </aside>
+            </section>
+            <section>
+            <!-- 검색창 -->
+            </section>
+            <aside>
+            <!-- 자료유형 사이드바 -->
+            </aside>
 
-                <div class="container">
+            <div class="container">
                 <section id="yb-popular-loan-books-menu">
                     <button id="region" class="btn btn-primary" type="submit">
                     지역
@@ -135,6 +135,7 @@
                     성별
                     </button>
                 </section>
+
                 <section id="filter">
                     <select
                     class="form-select region-menu"
@@ -160,38 +161,40 @@
                     <option value="39">제주</option>
                     </select>
                 </section>
+
                 <section id="yb-popular-loan-books">
                     <div
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     class="card"
                     style="width: 14.5rem"
-                    onclick="getBookhj('9791161571379')"
                     >
-                    <h2 class="yb-books-ranking">순위</h2>
-                    <img
-                        src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340770.jpg"
-                        class="card-img-top"
-                        alt="..."
-                    />
+                        <h2 class="yb-books-ranking">순위</h2>
+                        <img
+                            src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340770.jpg"
+                            class="card-img-top"
+                            alt="..."
+                        />
                     <!-- 책표지 URL-->
-                    <div class="card-body">
-                        <h3 class="card-title">도서명</h3>
-                        <br />
-                        <p class="card-text">저자명 :</p>
-                        <p class="card-text">출판사 :</p>
-                        <p class="card-text">출판년도 :</p>
-                    </div>
+                        <div class="card-body">
+                            <h3 class="card-title">도서명</h3>
+                            <br />
+                            <p class="card-text">저자명 :</p>
+                            <p class="card-text">출판사 :</p>
+                            <p class="card-text">출판년도 :</p>
+                        </div>
                     </div>
                 </section>
+
                 <section>
                     <nav aria-label="Page navigation example">
                     <ul class="pagination"></ul>
                     </nav>
                 </section>
-                </div>
+
+            </div>
                     
-                <div class="input-area">
+            <div class="input-area">
                 <div
                     class="btn-group"
                     role="group"
@@ -238,7 +241,8 @@
                 </div>
                 </div>
                 <section id="mg-card-holder">
-                <div class="search-info">
+                <div class="search-info"  data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
                     <h4>제목 검색 결과</h4>
                     <button onclick="moreSearcher('title')">더 보기 -></button>
                 </div>
@@ -255,16 +259,10 @@
                     <button onclick="moreSearcher('keyword')">더 보기 -></button>
                 </div>
                 <div class="mg-holder" id="keyword-holder">
-                    <div class="card" onclick="getBookhj('9791161571379')">
-                    <img src="/images/noimage.png" alt="" />
-                    <ul>
-                        <li>제목<span>${aaaaaa}</span></li>
-                        <li>작가<span>${ddddddddd}</span></li>
-                    </ul>
-                    </div>
+                    
                 </div>
                 </section>
-                    <h2>검색 결과</h2>
+                    <h2>더보기 결과</h2>
                     <div id="more-holder">
                         
                     </div>
