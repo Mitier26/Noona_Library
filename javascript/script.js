@@ -327,8 +327,8 @@ async function moreSearcher(input) {
         newUrl.searchParams.set('title', searchWord);
     }
 
-    newUrl.searchParams.set('pageSize', 1);
-    // newUrl.searchParams.set('pageSize', itemCountCalculator());
+    // newUrl.searchParams.set('pageSize', 1);
+    newUrl.searchParams.set('pageSize', itemCountCalculator());
     newUrl.searchParams.set('format', 'json');
 
     let response = await fetch(newUrl);
