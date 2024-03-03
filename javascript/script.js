@@ -76,20 +76,23 @@ let keywordSearchList = [];
 
 const lineCount = 3;
 
-const regionMenu = document.querySelectorAll('.region-menu');
-const ageMenu = document.querySelectorAll('.age-menu');
-const genderMenu = document.querySelectorAll('.gender-menu');
+const regionMenu = document.querySelectorAll(".region-menu");
+const ageMenu = document.querySelectorAll(".age-menu");
+const genderMenu = document.querySelectorAll(".gender-menu");
 
 let resultNum = 0;
 let page = 1;
 const ybPageSize = 20;
 const ybGroupSize = 5;
-const pageSize = 1;
+const pageSize = 10;
 const groupSize = 5;
 
-regionMenu.forEach((region) => region.addEventListener('change', (e) => getPopularLoanBooksByRegion(e)));
-ageMenu.forEach((age) => age.addEventListener('change', (e) => getPopularLoanBooksByAge(e)));
-genderMenu.forEach((gender) => gender.addEventListener('change', (e) => getPopularLoanBooksByGender(e)));
+regionMenu.forEach(region => 
+    region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+ageMenu.forEach(age => 
+    age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+genderMenu.forEach(gender => 
+    gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 let response;
 let date;
 
@@ -154,14 +157,16 @@ const popularLoanBooksFilter = (e) => {
             updateFilterSelect(2, this.options[this.selectedIndex].text);
         });
     }
+    const regionMenu = document.querySelectorAll(".region-menu");
+    const ageMenu = document.querySelectorAll(".age-menu");
+    const genderMenu = document.querySelectorAll(".gender-menu"); 
+    regionMenu.forEach(region => 
+        region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+    ageMenu.forEach(age => 
+        age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+    genderMenu.forEach(gender => 
+        gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 }
-
-regionMenu.forEach(region => 
-    region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
-ageMenu.forEach(age => 
-    age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
-genderMenu.forEach(gender => 
-    gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 
 async function searchBook(keyword) {
     try {
@@ -211,15 +216,6 @@ async function searchBook(keyword) {
         console.error(error);
 
     }
-    // const regionMenu = document.querySelectorAll(".region-menu");
-    // const ageMenu = document.querySelectorAll(".age-menu");
-    // const genderMenu = document.querySelectorAll(".gender-menu"); 
-    // regionMenu.forEach(region => 
-    //     region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
-    // ageMenu.forEach(age => 
-    //     age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
-    // genderMenu.forEach(gender => 
-    //     gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 }
 
 function searchRender() {
