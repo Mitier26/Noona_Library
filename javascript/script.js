@@ -80,8 +80,8 @@ const genderMenu = document.querySelectorAll('.gender-menu');
 
 let resultNum = 0;
 let page = 1;
-const ybPageSize = 10;
-const ybGroupSize = 4;
+const ybPageSize = 12;
+const ybGroupSize = 5;
 const pageSize = 10;
 const groupSize = 5;
 
@@ -163,7 +163,7 @@ async function searchBook(keyword) {
     try {
         url1.searchParams.set('authKey', API_KEY1[0]);
         url1.searchParams.set('pageNo', 1);
-        url1.searchParams.set('pageSize', 1);
+        url1.searchParams.set('pageSize', 8);
         url1.searchParams.set('format', 'json');
 
         // title 검색
@@ -327,13 +327,15 @@ async function moreSearcher(input) {
         newUrl.searchParams.set('title', searchWord);
     }
 
-    newUrl.searchParams.set('pageSize', 1);
-    // newUrl.searchParams.set('pageSize', itemCountCalculator());
+    // newUrl.searchParams.set('pageSize', 1);
+    newUrl.searchParams.set('pageSize', itemCountCalculator());
     newUrl.searchParams.set('format', 'json');
 
     let response = await fetch(newUrl);
     let data = await response.json();
     moreList = data.response.docs;
+
+    mgAllHolder.style.display = 'flex';
 
     moreRender();
 }
@@ -439,7 +441,26 @@ const searchInput = document.getElementById('search-input');
 const searchType = document.querySelectorAll('.search-type');
 
 // 엔터
-searchInput.addEventListener('keyup', function (e) {});
+searchInput.addEventListener('keyup', function (e) {
+    if (e.key === 'Enter') {
+        mgCardHolder.style.display = 'block';
+        ybPopularLoanBooksSection.style.display = 'none';
+        searchWord = searchInput.value.trim();
+
+        if (!searchWord) {
+            const returnVal = prompt('검색어를 입력해 주세요');
+
+            if (returnVal) {
+                searchInput.value = returnVal;
+                console.log(returnVal);
+                searchBook(returnVal);
+            }
+        } else {
+            console.log(searchWord);
+            searchBook(searchWord);
+        }
+    }
+});
 
 let searchWord = '';
 // 검색 타입 버튼
@@ -449,8 +470,14 @@ searchType.forEach((btn) => {
     });
 });
 
+const mgCardHolder = document.getElementById('mg-card-holder');
+const ybPopularLoanBooksSection = document.getElementById('yb-popular-loan-boos-section');
+const mgAllHolder = document.getElementById('more-holder');
+
 // 검색 하기 버튼
 searchBtn.addEventListener('click', function () {
+    mgCardHolder.style.display = 'block';
+    ybPopularLoanBooksSection.style.display = 'none';
     searchWord = searchInput.value.trim();
 
     if (!searchWord) {
