@@ -163,7 +163,7 @@ async function searchBook(keyword) {
     try {
         url1.searchParams.set('authKey', API_KEY1[0]);
         url1.searchParams.set('pageNo', 1);
-        url1.searchParams.set('pageSize', 1);
+        url1.searchParams.set('pageSize', 8);
         url1.searchParams.set('format', 'json');
 
         // title 검색
@@ -335,6 +335,8 @@ async function moreSearcher(input) {
     let data = await response.json();
     moreList = data.response.docs;
 
+    mgAllHolder.style.display = 'flex';
+
     moreRender();
 }
 
@@ -451,11 +453,12 @@ searchType.forEach((btn) => {
 
 const mgCardHolder = document.getElementById('mg-card-holder');
 const ybPopularLoanBooksSection = document.getElementById('yb-popular-loan-boos-section');
+const mgAllHolder = document.getElementById('more-holder');
 
 // 검색 하기 버튼
 searchBtn.addEventListener('click', function () {
-    mgCardHolder.style.display = "block";
-    ybPopularLoanBooksSection.style.display = "none";
+    mgCardHolder.style.display = 'block';
+    ybPopularLoanBooksSection.style.display = 'none';
     searchWord = searchInput.value.trim();
 
     if (!searchWord) {

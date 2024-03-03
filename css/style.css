@@ -50,6 +50,7 @@ body {
 }
 
 #more-holder {
+    /* display: none; */
     width: 100%;
     /* min-height: 1250px; */
     background-color: rgb(226, 226, 226);
@@ -249,7 +250,7 @@ a {
     align-items: center;
     margin: 50px;
     width: 80%;
-    height: 20px;;
+    height: 20px;
 }
 
 #modal-content {
@@ -261,19 +262,23 @@ a {
     display: none;
 }
 
-#search-input{
+#search-input {
     height: 50px;
 }
 
-#search-btn{
+#search-btn {
     height: 50px;
 }
 
-.input-section{
+.input-section {
     display: flex;
     justify-content: center;
 }
 
-#mg-card-holder{
+#mg-card-holder {
+    display: none;
+}
+
+#mg-all-card-holder {
     display: none;
 }
