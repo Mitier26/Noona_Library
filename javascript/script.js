@@ -80,7 +80,7 @@ const genderMenu = document.querySelectorAll('.gender-menu');
 
 let resultNum = 0;
 let page = 1;
-const ybPageSize = 1;
+const ybPageSize = 10;
 const ybGroupSize = 4;
 const pageSize = 10;
 const groupSize = 5;
