@@ -163,7 +163,7 @@ async function searchBook(keyword) {
     try {
         url1.searchParams.set('authKey', API_KEY1[0]);
         url1.searchParams.set('pageNo', 1);
-        url1.searchParams.set('pageSize', 1);
+        url1.searchParams.set('pageSize', 8);
         url1.searchParams.set('format', 'json');
 
         // title 검색
