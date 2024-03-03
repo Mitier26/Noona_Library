@@ -25,7 +25,7 @@ const genderMenu = document.querySelectorAll('.gender-menu');
 
 let resultNum = 0;
 let page = 1;
-const pageSize = 1;
+const pageSize = 5;
 const groupSize = 5;
 
 regionMenu.forEach((region) => region.addEventListener('change', (e) => getPopularLoanBooksByRegion(e)));
