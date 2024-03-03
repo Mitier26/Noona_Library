@@ -51,8 +51,8 @@ body {
 
 #more-holder {
     width: 100%;
-    min-height: 1250px;
-    background-color: aquamarine;
+    /* min-height: 1250px; */
+    background-color: rgb(226, 226, 226);
 }
 
 .mg-all-card-holder {
