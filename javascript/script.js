@@ -80,8 +80,8 @@ const genderMenu = document.querySelectorAll('.gender-menu');
 
 let resultNum = 0;
 let page = 1;
-const ybPageSize = 10;
-const ybGroupSize = 4;
+const ybPageSize = 12;
+const ybGroupSize = 5;
 const pageSize = 10;
 const groupSize = 5;
 
@@ -335,6 +335,8 @@ async function moreSearcher(input) {
     let data = await response.json();
     moreList = data.response.docs;
 
+    mgAllHolder.style.display = 'flex';
+
     moreRender();
 }
 
@@ -449,8 +451,14 @@ searchType.forEach((btn) => {
     });
 });
 
+const mgCardHolder = document.getElementById('mg-card-holder');
+const ybPopularLoanBooksSection = document.getElementById('yb-popular-loan-boos-section');
+const mgAllHolder = document.getElementById('more-holder');
+
 // 검색 하기 버튼
 searchBtn.addEventListener('click', function () {
+    mgCardHolder.style.display = 'block';
+    ybPopularLoanBooksSection.style.display = 'none';
     searchWord = searchInput.value.trim();
 
     if (!searchWord) {
