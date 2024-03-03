@@ -441,7 +441,26 @@ const searchInput = document.getElementById('search-input');
 const searchType = document.querySelectorAll('.search-type');
 
 // 엔터
-searchInput.addEventListener('keyup', function (e) {});
+searchInput.addEventListener('keyup', function (e) {
+    if (e.key === 'Enter') {
+        mgCardHolder.style.display = 'block';
+        ybPopularLoanBooksSection.style.display = 'none';
+        searchWord = searchInput.value.trim();
+
+        if (!searchWord) {
+            const returnVal = prompt('검색어를 입력해 주세요');
+
+            if (returnVal) {
+                searchInput.value = returnVal;
+                console.log(returnVal);
+                searchBook(returnVal);
+            }
+        } else {
+            console.log(searchWord);
+            searchBook(searchWord);
+        }
+    }
+});
 
 let searchWord = '';
 // 검색 타입 버튼
