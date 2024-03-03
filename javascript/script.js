@@ -37,7 +37,7 @@ filterBtn.forEach((element, index) => {
 
 // 날씨 아이콘
 $.getJSON(
-    'http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',
+    'https://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',
     function (data) {
         //data로 할일 작성
         //alert(data.list[0].main.temp_min)
