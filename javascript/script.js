@@ -3,9 +3,66 @@ const API_KEY1 = [`09f34dfde082ce1b964aeba567e3ecaab58fff794ea4607015ef070944921
 const API_KEY2 = `0d60452df08b29527128ee96f993660c1f3722369b9e8f087b6b69f215762f38`;
 
 let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
-let url1 = new URL('http://data4library.kr/api/srchBooks?');
 
 let bookList = [];
+let url1 = new URL('http://data4library.kr/api/srchBooks?');
+let url2 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
+
+let filterSelect = ['지역','연령','성별'];
+const filterDefault = ['지역','연령','성별'];
+const filterBtn = document.querySelectorAll('.filterBtn');
+console.log(filterBtn)
+
+const updateFilterSelect = (index, text) => {
+    filterSelect[index] = text;
+    console.log(filterSelect);
+
+    for(let i=0;i<filterBtn.length;i++){
+        if (filterSelect[i] !== filterDefault[i]) {
+            filterBtn[i].style.display = "inline";
+        } else {
+            filterBtn[i].style.display = "none";
+        }
+        filterBtn[i].innerHTML = filterSelect[i];
+    }
+}
+
+filterBtn.forEach((element,index) => {
+    element.addEventListener("click",function(){
+        console.log("click");
+        filterSelect[index] = filterDefault[index]
+        updateFilterSelect();
+    })
+});
+
+
+
+// 날씨 아이콘
+$.getJSON('http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',function(data){
+        //data로 할일 작성
+        //alert(data.list[0].main.temp_min)
+        let $minTemp=data.main.temp_min;
+        let $maxTemp= data.main.temp_max;
+        let $cTemp=data.main.temp;
+        let $cDate=data.dt;
+        let $wIcon=data.weather[0].icon;
+        
+
+        let $now= new Date($.now())
+        
+        //alert(new Date($.now()))
+        //A.append(B) A요소의 내용 뒤에 B를 추가
+        //A.prepend(B) A요소의 내용 앞에 B를 추가
+        $('.clowtemp').append($minTemp.toFixed(1).toString()+"°C");
+        $('.ctemp').append($cTemp.toFixed(1).toString()+"°C");
+        $('.chightemp').append($maxTemp.toFixed(1).toString()+"°C");
+        // $('h4').prepend($now.getFullYear()+'/'+($now.getMonth()+1)+'/'+$now.getDate()+'/'+$now.getHours()+":"+$now.getMinutes())
+        $('.cicon').append('<img src="https://openweathermap.org/img/wn/'+$wIcon+'@2x.png">')
+    })
+
+
+
+// 인기대출도서 목록
 let popularLoanBooksList = [];
 
 // 지역, 성별, 나이 탭을 가져옴
@@ -25,6 +82,8 @@ const genderMenu = document.querySelectorAll('.gender-menu');
 
 let resultNum = 0;
 let page = 1;
+const ybPageSize = 20;
+const ybGroupSize = 5;
 const pageSize = 1;
 const groupSize = 5;
 
@@ -34,43 +93,79 @@ genderMenu.forEach((gender) => gender.addEventListener('change', (e) => getPopul
 let response;
 let date;
 
-$.getJSON(
-    'http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=e185eb6e85e051757f1c4c54a4258982&units=metric',
-    function (data) {
-        //data로 할일 작성
-        //alert(data.list[0].main.temp_min)
-        let $minTemp = data.main.temp_min;
-        let $maxTemp = data.main.temp_max;
-        let $cTemp = data.main.temp;
-        let $cDate = data.dt;
-        let $wIcon = data.weather[0].icon;
-
-        let $now = new Date($.now());
-
-        //alert(new Date($.now()))
-        //A.append(B) A요소의 내용 뒤에 B를 추가
-        //A.prepend(B) A요소의 내용 앞에 B를 추가
-        $('.clowtemp').append($minTemp);
-        $('.ctemp').append($cTemp);
-        $('.chightemp').append($maxTemp);
-        $('.hh').prepend(
-            $now.getFullYear() +
-                '/' +
-                ($now.getMonth() + 1) +
-                '/' +
-                $now.getDate() +
-                '/' +
-                $now.getHours() +
-                ':' +
-                $now.getMinutes()
-        );
-        $('.cicon').append('<img src="https://openweathermap.org/img/wn/' + $wIcon + '@2x.png">');
+const popularLoanBooksFilter = (e) => {
+    let mode = e.target.id
+    console.log("mode", mode);
+    let filterHTML = ``
+    if(mode === "region"){
+        filterHTML = `
+        <select id="filterSelectPlace" class="form-select region-menu" aria-label="Default select example">
+            <option selected>전국</option>
+            <option value="11">서울</option>
+            <option value="21">부산</option>
+            <option value="22">대구</option>
+            <option value="23">인천</option>
+            <option value="24">광주</option>
+            <option value="25">대전</option>
+            <option value="26">울산</option>
+            <option value="29">세종</option>
+            <option value="31">경기</option>
+            <option value="32">강원</option>
+            <option value="33">충북</option>
+            <option value="34">충남</option>
+            <option value="35">전북</option>
+            <option value="36">전남</option>
+            <option value="37">경북</option>
+            <option value="38">경남</option>
+            <option value="39">제주</option>
+        </select>`
+        document.getElementById('filter').innerHTML=filterHTML
+        document.getElementById("filterSelectPlace").addEventListener("change", function() {
+            updateFilterSelect(0, this.options[this.selectedIndex].text);
+        });
+    }else if(mode === "age"){
+        filterHTML = `
+        <select id="filterSelectAge" class="form-select age-menu" aria-label="Default select example">
+            <option selected value="-1">전체</option>
+            <option value="0">영유아(0~5세)</option>
+            <option value="6">유아(6~7세)</option>
+            <option value="8">초등(8~13세)</option>
+            <option value="14">청소년(14~19세)</option>
+            <option value="20">20대</option>
+            <option value="30">30대</option>
+            <option value="40">40대</option>
+            <option value="50">50대</option>
+            <option value="60">60세 이상</option>
+        </select>`
+        document.getElementById('filter').innerHTML=filterHTML;
+        document.getElementById("filterSelectAge").addEventListener("change", function() {
+            updateFilterSelect(1, this.options[this.selectedIndex].text);
+        });
+        
+    }else if(mode === "gender"){
+        filterHTML = `
+        <select id="filterSelectGender" class="form-select gender-menu" aria-label="Default select example">
+            <option selected value="2">전체</option>
+            <option value="0">남성</option>
+            <option value="1">여성</option>
+        </select>`
+        document.getElementById('filter').innerHTML=filterHTML;
+        document.getElementById("filterSelectGender").addEventListener("change", function() {
+            updateFilterSelect(2, this.options[this.selectedIndex].text);
+        });
     }
-);
+}
+
+regionMenu.forEach(region => 
+    region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+ageMenu.forEach(age => 
+    age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+genderMenu.forEach(gender => 
+    gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 
 async function searchBook(keyword) {
     try {
-        keyword = '환경';
+        // keyword = '환경';
         url1.searchParams.set('authKey', API_KEY1[0]);
         url1.searchParams.set('pageNo', 1);
         url1.searchParams.set('pageSize', 1);
@@ -96,6 +191,7 @@ async function searchBook(keyword) {
         authorSearchList = data.response.docs;
         url1.searchParams.delete('author');
 
+
         // keyword 검색
         url1.searchParams.set('keyword', keyword);
         response = await fetch(url1);
@@ -113,7 +209,17 @@ async function searchBook(keyword) {
         searchRender();
     } catch (error) {
         console.error(error);
+
     }
+    // const regionMenu = document.querySelectorAll(".region-menu");
+    // const ageMenu = document.querySelectorAll(".age-menu");
+    // const genderMenu = document.querySelectorAll(".gender-menu"); 
+    // regionMenu.forEach(region => 
+    //     region.addEventListener("change",(e) => getPopularLoanBooksByRegion(e)));
+    // ageMenu.forEach(age => 
+    //     age.addEventListener("change",(e) => getPopularLoanBooksByAge(e)));
+    // genderMenu.forEach(gender => 
+    //     gender.addEventListener("change",(e) => getPopularLoanBooksByGender(e)));
 }
 
 function searchRender() {
@@ -245,17 +351,16 @@ const getPopularLoanBooks = async () => {
     getPopularLoanBooksData();
 };
 
-const getPopularLoanBooksData = async () => {
-    url.searchParams.set('pageNo', page);
-    url.searchParams.set('pageSize', pageSize);
+const getPopularLoanBooksData = async() => {
+    url.searchParams.set("pageNo", page);
+    url.searchParams.set("pageSize", ybPageSize);
     const response = await fetch(url);
     const data = await response.json();
-    console.log('data:', data);
     popularLoanBooksList = data.response.docs;
     resultNum = data.response.resultNum;
     popularLoanBooksRender();
-    paginationRender();
-};
+    ybPaginationRender();
+}
 
 const getPopularLoanBooksByRegion = async (e) => {
     const region = e.target.value;
@@ -324,14 +429,13 @@ searchBtn.addEventListener('click', function () {
     }
 });
 
-getPopularLoanBooks();
+// getPopularLoanBooks();
 
 const popularLoanBooksRender = () => {
-    const popularLoanBooksHTML = popularLoanBooksList
-        .map(
-            (book) =>
-                `<div class="card" style="width: 14.5rem;" data-bs-toggle="modal"
-        data-bs-target="#exampleModal" onclick="getBookhj('${book.doc.isbn13}')">
+    const popularLoanBooksHTML = popularLoanBooksList.map(
+        (book)=>
+            `<div class = "col-lg-3 col-md-6 col-sm-12">
+            <div class="card" style="width: 14.5rem;">
         <div class = "yb-books-ranking">${book.doc.ranking}</div>
         <img src=${book.doc.bookImageURL} class="card-img-top" alt="..."> <!-- 책표지 URL-->
         <div class="card-body">
@@ -340,54 +444,56 @@ const popularLoanBooksRender = () => {
             <div class="card-text">출판사 : ${book.doc.publisher}</div>
             <div class="card-text">출판년도 : ${book.doc.publication_year}</div>
         </div>
+    </div>
     </div>`
         )
         .join('');
     document.getElementById('yb-popular-loan-books').innerHTML = popularLoanBooksHTML;
 };
 
-const paginationRender = () => {
+const ybPaginationRender=()=>{
     //resultNum
     //page
     //pageSize
-    //groupSize
+    //ybGroupSize
     //totalPages
-    const totalPages = Math.ceil(resultNum / pageSize);
+    const ybTotalPages = Math.ceil(resultNum/ybPageSize);
     //pageGroup
-    const pageGroup = Math.ceil(page / groupSize);
-    //lastPage
-    let lastPage = pageGroup * groupSize;
-    if (lastPage < totalPages) {
-        lastPage = totalPages;
+    const ybPageGroup = Math.ceil(page/ybGroupSize);
+    //ybLastPage
+    let ybLastPage = ybPageGroup * ybGroupSize;
+    if(ybLastPage<ybTotalPages){
+        ybLastPage=ybTotalPages
     }
 
-    //firstPage
-    const firstPage = lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
+    //ybFirstPage
+    const ybFirstPage = ybLastPage - (ybGroupSize - 1)<=0 ? 1 : ybLastPage - (ybGroupSize - 1);
+    
+    let paginationHTML = ``
 
-    let paginationHTML = ``;
-
-    if (firstPage >= 6) {
-        paginationHTML = `<a class="page-link" onclick = "moveToPage(1)" aria-label="First-Page">
+    if(ybFirstPage >= 6){
+        paginationHTML = `<a class="page-link" onclick = "ybMoveToPage(1)" aria-label="First-Page">
         <span aria-hidden="true">&laquo;</span>
-    </a><a class="page-link" onclick = "moveToPage(${page - 1})" aria-label="Previous">
+      </a><a class="page-link" onclick = "ybMoveToPage(${page-1})" aria-label="Previous">
         <span aria-hidden="true">&lt;</span></a>`;
     }
 
-    for (let i = firstPage; i <= lastPage; i++) {
-        paginationHTML += `<li class="page-item" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`;
-    }
-    if (lastPage < totalPages) {
-        paginationHTML += `<a class="page-link" onclick = "moveToPage(${page + 1})" aria-label="Next">
+  for(let i=ybFirstPage;i<=ybLastPage;i++){
+    paginationHTML+=`<li class="page-item" onclick="ybMoveToPage(${i})"><a class="page-link">${i}</a></li>`
+  }
+
+  if(ybLastPage<resultNum){
+    paginationHTML+=`<a class="page-link" onclick = "ybMoveToPage(${page+1})" aria-label="Next">
 <span aria-hidden="true">&gt;</span>
-</a><a class="page-link" onclick = "moveToPage(${totalPages})"aria-label="Last-Page">
+</a><a class="page-link" onclick = "ybMoveToPage(${resultNum})"aria-label="Last-Page">
 <span aria-hidden="true">&raquo;</span>
 </a>`;
     }
     document.querySelector('.pagination').innerHTML = paginationHTML;
 };
 
-const moveToPage = (pageNum) => {
-    console.log('movetopage', pageNum);
+const ybMoveToPage = (pageNum) => {
+    console.log("ybMoveToPage", pageNum);
     page = pageNum;
     getPopularLoanBooksData();
 };
@@ -436,3 +542,4 @@ function modalRender() {
 
     document.getElementById('modal-content').innerHTML = booksHTML;
 }
+
