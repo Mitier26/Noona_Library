@@ -2,10 +2,10 @@ const API_KEY = `76920f087955f921eb6b6f79d89fc42703ef032dc51e44b6ee7e4be168f2de5
 const API_KEY1 = [`09f34dfde082ce1b964aeba567e3ecaab58fff794ea4607015ef0709449211a1`];
 const API_KEY2 = `0d60452df08b29527128ee96f993660c1f3722369b9e8f087b6b69f215762f38`;
 
-let url = new URL(`http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
+let url = new URL(`https://data4library.kr/api/loanItemSrch?authKey=${API_KEY}`);
 
 let bookList = [];
-let url1 = new URL('http://data4library.kr/api/srchBooks?');
+let url1 = new URL('https://data4library.kr/api/srchBooks?');
 let url2 = new URL('https://www.nl.go.kr/NL/search/openApi/search.do?');
 
 let filterSelect = ['지역', '연령', '성별'];
@@ -315,7 +315,7 @@ const moreHolder = document.getElementById('mg-holder2');
 let moreList = [];
 
 async function moreSearcher(input) {
-    let newUrl = new URL('http://data4library.kr/api/srchBooks?');
+    let newUrl = new URL('https://data4library.kr/api/srchBooks?');
 
     newUrl.searchParams.set('authKey', API_KEY1[0]);
 
